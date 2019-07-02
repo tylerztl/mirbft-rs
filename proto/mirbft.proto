@@ -1,0 +1,52 @@
+/*
+Copyright IBM Corp. All Rights Reserved.
+
+SPDX-License-Identifier: Apache-2.0
+*/
+
+syntax = "proto3";
+
+package mirbft;
+
+message Msg {
+    oneof type {
+        Preprepare preprepare = 1;
+        Prepare prepare = 2;
+        Commit commit = 3;
+        Forward forward = 4;
+        Checkpoint checkpoint = 5;
+    }
+}
+
+message Preprepare {
+    uint64 seq_no = 1;
+    uint64 epoch = 2;
+    uint64 bucket = 3;
+    repeated bytes batch = 4;
+}
+
+message Prepare {
+    uint64 seq_no = 1;
+    uint64 epoch = 2;
+    uint64 bucket = 3;
+    bytes digest = 4;
+}
+
+message Commit {
+    uint64 seq_no = 1;
+    uint64 epoch = 2;
+    uint64 bucket = 3;
+    bytes digest = 4;
+}
+
+message Checkpoint {
+    uint64 seq_no = 1;
+    bytes value = 2;
+    bytes attestation = 3;
+}
+
+message Forward {
+    uint64 epoch = 1;
+    uint64 bucket = 2;
+    bytes data = 3;
+}
