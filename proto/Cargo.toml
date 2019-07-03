@@ -5,3 +5,4 @@ authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
 edition = "2018"
 
 [dependencies]
+protobuf = "2.7.0"
