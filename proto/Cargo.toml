@@ -1,0 +1,7 @@
+[package]
+name = "proto"
+version = "0.1.0"
+authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
+edition = "2018"
+
+[dependencies]

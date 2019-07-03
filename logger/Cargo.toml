@@ -1,0 +1,12 @@
+[package]
+name = "logger"
+version = "0.1.0"
+authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
+edition = "2018"
+
+[dependencies]
+slog = "2.4.1"
+slog-envlogger = "2.1.0"
+slog-scope = "4.1.1"
+chrono = "0.4.7"
+termion = "1.5.1"
