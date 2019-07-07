@@ -6,3 +6,8 @@ edition = "2018"
 
 [dependencies]
 protobuf = "2.7.0"
+grpcio = "0.4.4"
+futures = "0.1.28"
+
+[build-dependencies]
+compile_proto = { path = "../common/compile_proto" }

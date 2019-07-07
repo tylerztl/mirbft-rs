@@ -1,9 +1,13 @@
 [package]
-name = "node"
+name = "network"
 version = "0.1.0"
 authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
 edition = "2018"
 
 [dependencies]
+proto = { path = "../proto" }
 logger = { path = "../logger" }
-network = { path = "../network" }
+grpcio = "0.4.4"
+grpcio-sys = "0.4.4"
+failure = "0.1.5"
+futures = "0.1.28"

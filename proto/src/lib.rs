@@ -1,1 +1,1 @@
-pub mod mirbft;
+pub mod proto;

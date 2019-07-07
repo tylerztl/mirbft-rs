@@ -27,22 +27,22 @@ use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_2_7_0;
 
 #[derive(PartialEq,Clone,Default)]
-pub struct Msg {
+pub struct Message {
     // message oneof groups
-    pub field_type: ::std::option::Option<Msg_oneof_type>,
+    pub Type: ::std::option::Option<Message_oneof_Type>,
     // special fields
     pub unknown_fields: ::protobuf::UnknownFields,
     pub cached_size: ::protobuf::CachedSize,
 }
 
-impl<'a> ::std::default::Default for &'a Msg {
-    fn default() -> &'a Msg {
-        <Msg as ::protobuf::Message>::default_instance()
+impl<'a> ::std::default::Default for &'a Message {
+    fn default() -> &'a Message {
+        <Message as ::protobuf::Message>::default_instance()
     }
 }
 
 #[derive(Clone,PartialEq,Debug)]
-pub enum Msg_oneof_type {
+pub enum Message_oneof_Type {
     preprepare(Preprepare),
     prepare(Prepare),
     commit(Commit),
@@ -50,44 +50,44 @@ pub enum Msg_oneof_type {
     checkpoint(Checkpoint),
 }
 
-impl Msg {
-    pub fn new() -> Msg {
+impl Message {
+    pub fn new() -> Message {
         ::std::default::Default::default()
     }
 
-    // .mirbft.Preprepare preprepare = 1;
+    // .proto.Preprepare preprepare = 1;
 
 
     pub fn get_preprepare(&self) -> &Preprepare {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::preprepare(ref v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::preprepare(ref v)) => v,
             _ => Preprepare::default_instance(),
         }
     }
     pub fn clear_preprepare(&mut self) {
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
     }
 
     pub fn has_preprepare(&self) -> bool {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::preprepare(..)) => true,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::preprepare(..)) => true,
             _ => false,
         }
     }
 
     // Param is passed by value, moved
     pub fn set_preprepare(&mut self, v: Preprepare) {
-        self.field_type = ::std::option::Option::Some(Msg_oneof_type::preprepare(v))
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::preprepare(v))
     }
 
     // Mutable pointer to the field.
     pub fn mut_preprepare(&mut self) -> &mut Preprepare {
-        if let ::std::option::Option::Some(Msg_oneof_type::preprepare(_)) = self.field_type {
+        if let ::std::option::Option::Some(Message_oneof_Type::preprepare(_)) = self.Type {
         } else {
-            self.field_type = ::std::option::Option::Some(Msg_oneof_type::preprepare(Preprepare::new()));
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::preprepare(Preprepare::new()));
         }
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::preprepare(ref mut v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::preprepare(ref mut v)) => v,
             _ => panic!(),
         }
     }
@@ -95,8 +95,8 @@ impl Msg {
     // Take field
     pub fn take_preprepare(&mut self) -> Preprepare {
         if self.has_preprepare() {
-            match self.field_type.take() {
-                ::std::option::Option::Some(Msg_oneof_type::preprepare(v)) => v,
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::preprepare(v)) => v,
                 _ => panic!(),
             }
         } else {
@@ -104,39 +104,39 @@ impl Msg {
         }
     }
 
-    // .mirbft.Prepare prepare = 2;
+    // .proto.Prepare prepare = 2;
 
 
     pub fn get_prepare(&self) -> &Prepare {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::prepare(ref v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::prepare(ref v)) => v,
             _ => Prepare::default_instance(),
         }
     }
     pub fn clear_prepare(&mut self) {
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
     }
 
     pub fn has_prepare(&self) -> bool {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::prepare(..)) => true,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::prepare(..)) => true,
             _ => false,
         }
     }
 
     // Param is passed by value, moved
     pub fn set_prepare(&mut self, v: Prepare) {
-        self.field_type = ::std::option::Option::Some(Msg_oneof_type::prepare(v))
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::prepare(v))
     }
 
     // Mutable pointer to the field.
     pub fn mut_prepare(&mut self) -> &mut Prepare {
-        if let ::std::option::Option::Some(Msg_oneof_type::prepare(_)) = self.field_type {
+        if let ::std::option::Option::Some(Message_oneof_Type::prepare(_)) = self.Type {
         } else {
-            self.field_type = ::std::option::Option::Some(Msg_oneof_type::prepare(Prepare::new()));
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::prepare(Prepare::new()));
         }
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::prepare(ref mut v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::prepare(ref mut v)) => v,
             _ => panic!(),
         }
     }
@@ -144,8 +144,8 @@ impl Msg {
     // Take field
     pub fn take_prepare(&mut self) -> Prepare {
         if self.has_prepare() {
-            match self.field_type.take() {
-                ::std::option::Option::Some(Msg_oneof_type::prepare(v)) => v,
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::prepare(v)) => v,
                 _ => panic!(),
             }
         } else {
@@ -153,39 +153,39 @@ impl Msg {
         }
     }
 
-    // .mirbft.Commit commit = 3;
+    // .proto.Commit commit = 3;
 
 
     pub fn get_commit(&self) -> &Commit {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::commit(ref v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::commit(ref v)) => v,
             _ => Commit::default_instance(),
         }
     }
     pub fn clear_commit(&mut self) {
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
     }
 
     pub fn has_commit(&self) -> bool {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::commit(..)) => true,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::commit(..)) => true,
             _ => false,
         }
     }
 
     // Param is passed by value, moved
     pub fn set_commit(&mut self, v: Commit) {
-        self.field_type = ::std::option::Option::Some(Msg_oneof_type::commit(v))
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::commit(v))
     }
 
     // Mutable pointer to the field.
     pub fn mut_commit(&mut self) -> &mut Commit {
-        if let ::std::option::Option::Some(Msg_oneof_type::commit(_)) = self.field_type {
+        if let ::std::option::Option::Some(Message_oneof_Type::commit(_)) = self.Type {
         } else {
-            self.field_type = ::std::option::Option::Some(Msg_oneof_type::commit(Commit::new()));
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::commit(Commit::new()));
         }
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::commit(ref mut v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::commit(ref mut v)) => v,
             _ => panic!(),
         }
     }
@@ -193,8 +193,8 @@ impl Msg {
     // Take field
     pub fn take_commit(&mut self) -> Commit {
         if self.has_commit() {
-            match self.field_type.take() {
-                ::std::option::Option::Some(Msg_oneof_type::commit(v)) => v,
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::commit(v)) => v,
                 _ => panic!(),
             }
         } else {
@@ -202,39 +202,39 @@ impl Msg {
         }
     }
 
-    // .mirbft.Forward forward = 4;
+    // .proto.Forward forward = 4;
 
 
     pub fn get_forward(&self) -> &Forward {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::forward(ref v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(ref v)) => v,
             _ => Forward::default_instance(),
         }
     }
     pub fn clear_forward(&mut self) {
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
     }
 
     pub fn has_forward(&self) -> bool {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::forward(..)) => true,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(..)) => true,
             _ => false,
         }
     }
 
     // Param is passed by value, moved
     pub fn set_forward(&mut self, v: Forward) {
-        self.field_type = ::std::option::Option::Some(Msg_oneof_type::forward(v))
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(v))
     }
 
     // Mutable pointer to the field.
     pub fn mut_forward(&mut self) -> &mut Forward {
-        if let ::std::option::Option::Some(Msg_oneof_type::forward(_)) = self.field_type {
+        if let ::std::option::Option::Some(Message_oneof_Type::forward(_)) = self.Type {
         } else {
-            self.field_type = ::std::option::Option::Some(Msg_oneof_type::forward(Forward::new()));
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(Forward::new()));
         }
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::forward(ref mut v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(ref mut v)) => v,
             _ => panic!(),
         }
     }
@@ -242,8 +242,8 @@ impl Msg {
     // Take field
     pub fn take_forward(&mut self) -> Forward {
         if self.has_forward() {
-            match self.field_type.take() {
-                ::std::option::Option::Some(Msg_oneof_type::forward(v)) => v,
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::forward(v)) => v,
                 _ => panic!(),
             }
         } else {
@@ -251,39 +251,39 @@ impl Msg {
         }
     }
 
-    // .mirbft.Checkpoint checkpoint = 5;
+    // .proto.Checkpoint checkpoint = 5;
 
 
     pub fn get_checkpoint(&self) -> &Checkpoint {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::checkpoint(ref v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::checkpoint(ref v)) => v,
             _ => Checkpoint::default_instance(),
         }
     }
     pub fn clear_checkpoint(&mut self) {
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
     }
 
     pub fn has_checkpoint(&self) -> bool {
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::checkpoint(..)) => true,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::checkpoint(..)) => true,
             _ => false,
         }
     }
 
     // Param is passed by value, moved
     pub fn set_checkpoint(&mut self, v: Checkpoint) {
-        self.field_type = ::std::option::Option::Some(Msg_oneof_type::checkpoint(v))
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::checkpoint(v))
     }
 
     // Mutable pointer to the field.
     pub fn mut_checkpoint(&mut self) -> &mut Checkpoint {
-        if let ::std::option::Option::Some(Msg_oneof_type::checkpoint(_)) = self.field_type {
+        if let ::std::option::Option::Some(Message_oneof_Type::checkpoint(_)) = self.Type {
         } else {
-            self.field_type = ::std::option::Option::Some(Msg_oneof_type::checkpoint(Checkpoint::new()));
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::checkpoint(Checkpoint::new()));
         }
-        match self.field_type {
-            ::std::option::Option::Some(Msg_oneof_type::checkpoint(ref mut v)) => v,
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::checkpoint(ref mut v)) => v,
             _ => panic!(),
         }
     }
@@ -291,8 +291,8 @@ impl Msg {
     // Take field
     pub fn take_checkpoint(&mut self) -> Checkpoint {
         if self.has_checkpoint() {
-            match self.field_type.take() {
-                ::std::option::Option::Some(Msg_oneof_type::checkpoint(v)) => v,
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::checkpoint(v)) => v,
                 _ => panic!(),
             }
         } else {
@@ -301,29 +301,29 @@ impl Msg {
     }
 }
 
-impl ::protobuf::Message for Msg {
+impl ::protobuf::Message for Message {
     fn is_initialized(&self) -> bool {
-        if let Some(Msg_oneof_type::preprepare(ref v)) = self.field_type {
+        if let Some(Message_oneof_Type::preprepare(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
         }
-        if let Some(Msg_oneof_type::prepare(ref v)) = self.field_type {
+        if let Some(Message_oneof_Type::prepare(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
         }
-        if let Some(Msg_oneof_type::commit(ref v)) = self.field_type {
+        if let Some(Message_oneof_Type::commit(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
         }
-        if let Some(Msg_oneof_type::forward(ref v)) = self.field_type {
+        if let Some(Message_oneof_Type::forward(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
         }
-        if let Some(Msg_oneof_type::checkpoint(ref v)) = self.field_type {
+        if let Some(Message_oneof_Type::checkpoint(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
@@ -339,31 +339,31 @@ impl ::protobuf::Message for Msg {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.field_type = ::std::option::Option::Some(Msg_oneof_type::preprepare(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::preprepare(is.read_message()?));
                 },
                 2 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.field_type = ::std::option::Option::Some(Msg_oneof_type::prepare(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::prepare(is.read_message()?));
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.field_type = ::std::option::Option::Some(Msg_oneof_type::commit(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::commit(is.read_message()?));
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.field_type = ::std::option::Option::Some(Msg_oneof_type::forward(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(is.read_message()?));
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.field_type = ::std::option::Option::Some(Msg_oneof_type::checkpoint(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::checkpoint(is.read_message()?));
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -377,25 +377,25 @@ impl ::protobuf::Message for Msg {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if let ::std::option::Option::Some(ref v) = self.field_type {
+        if let ::std::option::Option::Some(ref v) = self.Type {
             match v {
-                &Msg_oneof_type::preprepare(ref v) => {
+                &Message_oneof_Type::preprepare(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
-                &Msg_oneof_type::prepare(ref v) => {
+                &Message_oneof_Type::prepare(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
-                &Msg_oneof_type::commit(ref v) => {
+                &Message_oneof_Type::commit(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
-                &Msg_oneof_type::forward(ref v) => {
+                &Message_oneof_Type::forward(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
-                &Msg_oneof_type::checkpoint(ref v) => {
+                &Message_oneof_Type::checkpoint(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
@@ -407,29 +407,29 @@ impl ::protobuf::Message for Msg {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if let ::std::option::Option::Some(ref v) = self.field_type {
+        if let ::std::option::Option::Some(ref v) = self.Type {
             match v {
-                &Msg_oneof_type::preprepare(ref v) => {
+                &Message_oneof_Type::preprepare(ref v) => {
                     os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Msg_oneof_type::prepare(ref v) => {
+                &Message_oneof_Type::prepare(ref v) => {
                     os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Msg_oneof_type::commit(ref v) => {
+                &Message_oneof_Type::commit(ref v) => {
                     os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Msg_oneof_type::forward(ref v) => {
+                &Message_oneof_Type::forward(ref v) => {
                     os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Msg_oneof_type::checkpoint(ref v) => {
+                &Message_oneof_Type::checkpoint(ref v) => {
                     os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
@@ -466,8 +466,8 @@ impl ::protobuf::Message for Msg {
         Self::descriptor_static()
     }
 
-    fn new() -> Msg {
-        Msg::new()
+    fn new() -> Message {
+        Message::new()
     }
 
     fn descriptor_static() -> &'static ::protobuf::reflect::MessageDescriptor {
@@ -480,31 +480,31 @@ impl ::protobuf::Message for Msg {
                 let mut fields = ::std::vec::Vec::new();
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Preprepare>(
                     "preprepare",
-                    Msg::has_preprepare,
-                    Msg::get_preprepare,
+                    Message::has_preprepare,
+                    Message::get_preprepare,
                 ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Prepare>(
                     "prepare",
-                    Msg::has_prepare,
-                    Msg::get_prepare,
+                    Message::has_prepare,
+                    Message::get_prepare,
                 ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Commit>(
                     "commit",
-                    Msg::has_commit,
-                    Msg::get_commit,
+                    Message::has_commit,
+                    Message::get_commit,
                 ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Forward>(
                     "forward",
-                    Msg::has_forward,
-                    Msg::get_forward,
+                    Message::has_forward,
+                    Message::get_forward,
                 ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Checkpoint>(
                     "checkpoint",
-                    Msg::has_checkpoint,
-                    Msg::get_checkpoint,
+                    Message::has_checkpoint,
+                    Message::get_checkpoint,
                 ));
-                ::protobuf::reflect::MessageDescriptor::new::<Msg>(
-                    "Msg",
+                ::protobuf::reflect::MessageDescriptor::new::<Message>(
+                    "Message",
                     fields,
                     file_descriptor_proto()
                 )
@@ -512,35 +512,35 @@ impl ::protobuf::Message for Msg {
         }
     }
 
-    fn default_instance() -> &'static Msg {
-        static mut instance: ::protobuf::lazy::Lazy<Msg> = ::protobuf::lazy::Lazy {
+    fn default_instance() -> &'static Message {
+        static mut instance: ::protobuf::lazy::Lazy<Message> = ::protobuf::lazy::Lazy {
             lock: ::protobuf::lazy::ONCE_INIT,
-            ptr: 0 as *const Msg,
+            ptr: 0 as *const Message,
         };
         unsafe {
-            instance.get(Msg::new)
+            instance.get(Message::new)
         }
     }
 }
 
-impl ::protobuf::Clear for Msg {
+impl ::protobuf::Clear for Message {
     fn clear(&mut self) {
-        self.field_type = ::std::option::Option::None;
-        self.field_type = ::std::option::Option::None;
-        self.field_type = ::std::option::Option::None;
-        self.field_type = ::std::option::Option::None;
-        self.field_type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
+        self.Type = ::std::option::Option::None;
         self.unknown_fields.clear();
     }
 }
 
-impl ::std::fmt::Debug for Msg {
+impl ::std::fmt::Debug for Message {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         ::protobuf::text_format::fmt(self, f)
     }
 }
 
-impl ::protobuf::reflect::ProtobufValue for Msg {
+impl ::protobuf::reflect::ProtobufValue for Message {
     fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
         ::protobuf::reflect::ProtobufValueRef::Message(self)
     }
@@ -1853,113 +1853,27 @@ impl ::protobuf::reflect::ProtobufValue for Forward {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x0cmirbft.proto\x12\x06mirbft\"\xfd\x01\n\x03Msg\x124\n\npreprepare\
-    \x18\x01\x20\x01(\x0b2\x12.mirbft.PreprepareH\0R\npreprepare\x12+\n\x07p\
-    repare\x18\x02\x20\x01(\x0b2\x0f.mirbft.PrepareH\0R\x07prepare\x12(\n\
-    \x06commit\x18\x03\x20\x01(\x0b2\x0e.mirbft.CommitH\0R\x06commit\x12+\n\
-    \x07forward\x18\x04\x20\x01(\x0b2\x0f.mirbft.ForwardH\0R\x07forward\x124\
-    \n\ncheckpoint\x18\x05\x20\x01(\x0b2\x12.mirbft.CheckpointH\0R\ncheckpoi\
-    ntB\x06\n\x04type\"g\n\nPreprepare\x12\x15\n\x06seq_no\x18\x01\x20\x01(\
-    \x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\x12\x16\
-    \n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x14\n\x05batch\x18\x04\
-    \x20\x03(\x0cR\x05batch\"f\n\x07Prepare\x12\x15\n\x06seq_no\x18\x01\x20\
+    \n\x0cmirbft.proto\x12\x05proto\"\xfc\x01\n\x07Message\x123\n\npreprepar\
+    e\x18\x01\x20\x01(\x0b2\x11.proto.PreprepareH\0R\npreprepare\x12*\n\x07p\
+    repare\x18\x02\x20\x01(\x0b2\x0e.proto.PrepareH\0R\x07prepare\x12'\n\x06\
+    commit\x18\x03\x20\x01(\x0b2\r.proto.CommitH\0R\x06commit\x12*\n\x07forw\
+    ard\x18\x04\x20\x01(\x0b2\x0e.proto.ForwardH\0R\x07forward\x123\n\ncheck\
+    point\x18\x05\x20\x01(\x0b2\x11.proto.CheckpointH\0R\ncheckpointB\x06\n\
+    \x04Type\"g\n\nPreprepare\x12\x15\n\x06seq_no\x18\x01\x20\x01(\x04R\x05s\
+    eqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\x12\x16\n\x06buck\
+    et\x18\x03\x20\x01(\x04R\x06bucket\x12\x14\n\x05batch\x18\x04\x20\x03(\
+    \x0cR\x05batch\"f\n\x07Prepare\x12\x15\n\x06seq_no\x18\x01\x20\x01(\x04R\
+    \x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\x12\x16\n\
+    \x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x16\n\x06digest\x18\x04\
+    \x20\x01(\x0cR\x06digest\"e\n\x06Commit\x12\x15\n\x06seq_no\x18\x01\x20\
     \x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\
     \x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x16\n\x06digest\
-    \x18\x04\x20\x01(\x0cR\x06digest\"e\n\x06Commit\x12\x15\n\x06seq_no\x18\
-    \x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05\
-    epoch\x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x16\n\x06d\
-    igest\x18\x04\x20\x01(\x0cR\x06digest\"[\n\nCheckpoint\x12\x15\n\x06seq_\
-    no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05value\x18\x02\x20\x01(\
-    \x0cR\x05value\x12\x20\n\x0battestation\x18\x03\x20\x01(\x0cR\x0battesta\
-    tion\"K\n\x07Forward\x12\x14\n\x05epoch\x18\x01\x20\x01(\x04R\x05epoch\
-    \x12\x16\n\x06bucket\x18\x02\x20\x01(\x04R\x06bucket\x12\x12\n\x04data\
-    \x18\x03\x20\x01(\x0cR\x04dataJ\x97\x0e\n\x06\x12\x04\x06\03\x01\nY\n\
-    \x01\x0c\x12\x03\x06\0\x122O\nCopyright\x20IBM\x20Corp.\x20All\x20Rights\
-    \x20Reserved.\n\nSPDX-License-Identifier:\x20Apache-2.0\n\n\x08\n\x01\
-    \x02\x12\x03\x08\0\x0f\n\n\n\x02\x04\0\x12\x04\n\0\x12\x01\n\n\n\x03\x04\
-    \0\x01\x12\x03\n\x08\x0b\n\x0c\n\x04\x04\0\x08\0\x12\x04\x0b\x04\x11\x05\
-    \n\x0c\n\x05\x04\0\x08\0\x01\x12\x03\x0b\n\x0e\n\x0b\n\x04\x04\0\x02\0\
-    \x12\x03\x0c\x08\"\n\x0c\n\x05\x04\0\x02\0\x06\x12\x03\x0c\x08\x12\n\x0c\
-    \n\x05\x04\0\x02\0\x01\x12\x03\x0c\x13\x1d\n\x0c\n\x05\x04\0\x02\0\x03\
-    \x12\x03\x0c\x20!\n\x0b\n\x04\x04\0\x02\x01\x12\x03\r\x08\x1c\n\x0c\n\
-    \x05\x04\0\x02\x01\x06\x12\x03\r\x08\x0f\n\x0c\n\x05\x04\0\x02\x01\x01\
-    \x12\x03\r\x10\x17\n\x0c\n\x05\x04\0\x02\x01\x03\x12\x03\r\x1a\x1b\n\x0b\
-    \n\x04\x04\0\x02\x02\x12\x03\x0e\x08\x1a\n\x0c\n\x05\x04\0\x02\x02\x06\
-    \x12\x03\x0e\x08\x0e\n\x0c\n\x05\x04\0\x02\x02\x01\x12\x03\x0e\x0f\x15\n\
-    \x0c\n\x05\x04\0\x02\x02\x03\x12\x03\x0e\x18\x19\n\x0b\n\x04\x04\0\x02\
-    \x03\x12\x03\x0f\x08\x1c\n\x0c\n\x05\x04\0\x02\x03\x06\x12\x03\x0f\x08\
-    \x0f\n\x0c\n\x05\x04\0\x02\x03\x01\x12\x03\x0f\x10\x17\n\x0c\n\x05\x04\0\
-    \x02\x03\x03\x12\x03\x0f\x1a\x1b\n\x0b\n\x04\x04\0\x02\x04\x12\x03\x10\
-    \x08\"\n\x0c\n\x05\x04\0\x02\x04\x06\x12\x03\x10\x08\x12\n\x0c\n\x05\x04\
-    \0\x02\x04\x01\x12\x03\x10\x13\x1d\n\x0c\n\x05\x04\0\x02\x04\x03\x12\x03\
-    \x10\x20!\n\n\n\x02\x04\x01\x12\x04\x14\0\x19\x01\n\n\n\x03\x04\x01\x01\
-    \x12\x03\x14\x08\x12\n\x0b\n\x04\x04\x01\x02\0\x12\x03\x15\x04\x16\n\r\n\
-    \x05\x04\x01\x02\0\x04\x12\x04\x15\x04\x14\x14\n\x0c\n\x05\x04\x01\x02\0\
-    \x05\x12\x03\x15\x04\n\n\x0c\n\x05\x04\x01\x02\0\x01\x12\x03\x15\x0b\x11\
-    \n\x0c\n\x05\x04\x01\x02\0\x03\x12\x03\x15\x14\x15\n\x0b\n\x04\x04\x01\
-    \x02\x01\x12\x03\x16\x04\x15\n\r\n\x05\x04\x01\x02\x01\x04\x12\x04\x16\
-    \x04\x15\x16\n\x0c\n\x05\x04\x01\x02\x01\x05\x12\x03\x16\x04\n\n\x0c\n\
-    \x05\x04\x01\x02\x01\x01\x12\x03\x16\x0b\x10\n\x0c\n\x05\x04\x01\x02\x01\
-    \x03\x12\x03\x16\x13\x14\n\x0b\n\x04\x04\x01\x02\x02\x12\x03\x17\x04\x16\
-    \n\r\n\x05\x04\x01\x02\x02\x04\x12\x04\x17\x04\x16\x15\n\x0c\n\x05\x04\
-    \x01\x02\x02\x05\x12\x03\x17\x04\n\n\x0c\n\x05\x04\x01\x02\x02\x01\x12\
-    \x03\x17\x0b\x11\n\x0c\n\x05\x04\x01\x02\x02\x03\x12\x03\x17\x14\x15\n\
-    \x0b\n\x04\x04\x01\x02\x03\x12\x03\x18\x04\x1d\n\x0c\n\x05\x04\x01\x02\
-    \x03\x04\x12\x03\x18\x04\x0c\n\x0c\n\x05\x04\x01\x02\x03\x05\x12\x03\x18\
-    \r\x12\n\x0c\n\x05\x04\x01\x02\x03\x01\x12\x03\x18\x13\x18\n\x0c\n\x05\
-    \x04\x01\x02\x03\x03\x12\x03\x18\x1b\x1c\n\n\n\x02\x04\x02\x12\x04\x1b\0\
-    \x20\x01\n\n\n\x03\x04\x02\x01\x12\x03\x1b\x08\x0f\n\x0b\n\x04\x04\x02\
-    \x02\0\x12\x03\x1c\x04\x16\n\r\n\x05\x04\x02\x02\0\x04\x12\x04\x1c\x04\
-    \x1b\x11\n\x0c\n\x05\x04\x02\x02\0\x05\x12\x03\x1c\x04\n\n\x0c\n\x05\x04\
-    \x02\x02\0\x01\x12\x03\x1c\x0b\x11\n\x0c\n\x05\x04\x02\x02\0\x03\x12\x03\
-    \x1c\x14\x15\n\x0b\n\x04\x04\x02\x02\x01\x12\x03\x1d\x04\x15\n\r\n\x05\
-    \x04\x02\x02\x01\x04\x12\x04\x1d\x04\x1c\x16\n\x0c\n\x05\x04\x02\x02\x01\
-    \x05\x12\x03\x1d\x04\n\n\x0c\n\x05\x04\x02\x02\x01\x01\x12\x03\x1d\x0b\
-    \x10\n\x0c\n\x05\x04\x02\x02\x01\x03\x12\x03\x1d\x13\x14\n\x0b\n\x04\x04\
-    \x02\x02\x02\x12\x03\x1e\x04\x16\n\r\n\x05\x04\x02\x02\x02\x04\x12\x04\
-    \x1e\x04\x1d\x15\n\x0c\n\x05\x04\x02\x02\x02\x05\x12\x03\x1e\x04\n\n\x0c\
-    \n\x05\x04\x02\x02\x02\x01\x12\x03\x1e\x0b\x11\n\x0c\n\x05\x04\x02\x02\
-    \x02\x03\x12\x03\x1e\x14\x15\n\x0b\n\x04\x04\x02\x02\x03\x12\x03\x1f\x04\
-    \x15\n\r\n\x05\x04\x02\x02\x03\x04\x12\x04\x1f\x04\x1e\x16\n\x0c\n\x05\
-    \x04\x02\x02\x03\x05\x12\x03\x1f\x04\t\n\x0c\n\x05\x04\x02\x02\x03\x01\
-    \x12\x03\x1f\n\x10\n\x0c\n\x05\x04\x02\x02\x03\x03\x12\x03\x1f\x13\x14\n\
-    \n\n\x02\x04\x03\x12\x04\"\0'\x01\n\n\n\x03\x04\x03\x01\x12\x03\"\x08\
-    \x0e\n\x0b\n\x04\x04\x03\x02\0\x12\x03#\x04\x16\n\r\n\x05\x04\x03\x02\0\
-    \x04\x12\x04#\x04\"\x10\n\x0c\n\x05\x04\x03\x02\0\x05\x12\x03#\x04\n\n\
-    \x0c\n\x05\x04\x03\x02\0\x01\x12\x03#\x0b\x11\n\x0c\n\x05\x04\x03\x02\0\
-    \x03\x12\x03#\x14\x15\n\x0b\n\x04\x04\x03\x02\x01\x12\x03$\x04\x15\n\r\n\
-    \x05\x04\x03\x02\x01\x04\x12\x04$\x04#\x16\n\x0c\n\x05\x04\x03\x02\x01\
-    \x05\x12\x03$\x04\n\n\x0c\n\x05\x04\x03\x02\x01\x01\x12\x03$\x0b\x10\n\
-    \x0c\n\x05\x04\x03\x02\x01\x03\x12\x03$\x13\x14\n\x0b\n\x04\x04\x03\x02\
-    \x02\x12\x03%\x04\x16\n\r\n\x05\x04\x03\x02\x02\x04\x12\x04%\x04$\x15\n\
-    \x0c\n\x05\x04\x03\x02\x02\x05\x12\x03%\x04\n\n\x0c\n\x05\x04\x03\x02\
-    \x02\x01\x12\x03%\x0b\x11\n\x0c\n\x05\x04\x03\x02\x02\x03\x12\x03%\x14\
-    \x15\n\x0b\n\x04\x04\x03\x02\x03\x12\x03&\x04\x15\n\r\n\x05\x04\x03\x02\
-    \x03\x04\x12\x04&\x04%\x16\n\x0c\n\x05\x04\x03\x02\x03\x05\x12\x03&\x04\
-    \t\n\x0c\n\x05\x04\x03\x02\x03\x01\x12\x03&\n\x10\n\x0c\n\x05\x04\x03\
-    \x02\x03\x03\x12\x03&\x13\x14\n\n\n\x02\x04\x04\x12\x04)\0-\x01\n\n\n\
-    \x03\x04\x04\x01\x12\x03)\x08\x12\n\x0b\n\x04\x04\x04\x02\0\x12\x03*\x04\
-    \x16\n\r\n\x05\x04\x04\x02\0\x04\x12\x04*\x04)\x14\n\x0c\n\x05\x04\x04\
-    \x02\0\x05\x12\x03*\x04\n\n\x0c\n\x05\x04\x04\x02\0\x01\x12\x03*\x0b\x11\
-    \n\x0c\n\x05\x04\x04\x02\0\x03\x12\x03*\x14\x15\n\x0b\n\x04\x04\x04\x02\
-    \x01\x12\x03+\x04\x14\n\r\n\x05\x04\x04\x02\x01\x04\x12\x04+\x04*\x16\n\
-    \x0c\n\x05\x04\x04\x02\x01\x05\x12\x03+\x04\t\n\x0c\n\x05\x04\x04\x02\
-    \x01\x01\x12\x03+\n\x0f\n\x0c\n\x05\x04\x04\x02\x01\x03\x12\x03+\x12\x13\
-    \n\x0b\n\x04\x04\x04\x02\x02\x12\x03,\x04\x1a\n\r\n\x05\x04\x04\x02\x02\
-    \x04\x12\x04,\x04+\x14\n\x0c\n\x05\x04\x04\x02\x02\x05\x12\x03,\x04\t\n\
-    \x0c\n\x05\x04\x04\x02\x02\x01\x12\x03,\n\x15\n\x0c\n\x05\x04\x04\x02\
-    \x02\x03\x12\x03,\x18\x19\n\n\n\x02\x04\x05\x12\x04/\03\x01\n\n\n\x03\
-    \x04\x05\x01\x12\x03/\x08\x0f\n\x0b\n\x04\x04\x05\x02\0\x12\x030\x04\x15\
-    \n\r\n\x05\x04\x05\x02\0\x04\x12\x040\x04/\x11\n\x0c\n\x05\x04\x05\x02\0\
-    \x05\x12\x030\x04\n\n\x0c\n\x05\x04\x05\x02\0\x01\x12\x030\x0b\x10\n\x0c\
-    \n\x05\x04\x05\x02\0\x03\x12\x030\x13\x14\n\x0b\n\x04\x04\x05\x02\x01\
-    \x12\x031\x04\x16\n\r\n\x05\x04\x05\x02\x01\x04\x12\x041\x040\x15\n\x0c\
-    \n\x05\x04\x05\x02\x01\x05\x12\x031\x04\n\n\x0c\n\x05\x04\x05\x02\x01\
-    \x01\x12\x031\x0b\x11\n\x0c\n\x05\x04\x05\x02\x01\x03\x12\x031\x14\x15\n\
-    \x0b\n\x04\x04\x05\x02\x02\x12\x032\x04\x13\n\r\n\x05\x04\x05\x02\x02\
-    \x04\x12\x042\x041\x16\n\x0c\n\x05\x04\x05\x02\x02\x05\x12\x032\x04\t\n\
-    \x0c\n\x05\x04\x05\x02\x02\x01\x12\x032\n\x0e\n\x0c\n\x05\x04\x05\x02\
-    \x02\x03\x12\x032\x11\x12b\x06proto3\
+    \x18\x04\x20\x01(\x0cR\x06digest\"[\n\nCheckpoint\x12\x15\n\x06seq_no\
+    \x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05value\x18\x02\x20\x01(\x0cR\
+    \x05value\x12\x20\n\x0battestation\x18\x03\x20\x01(\x0cR\x0battestation\
+    \"K\n\x07Forward\x12\x14\n\x05epoch\x18\x01\x20\x01(\x04R\x05epoch\x12\
+    \x16\n\x06bucket\x18\x02\x20\x01(\x04R\x06bucket\x12\x12\n\x04data\x18\
+    \x03\x20\x01(\x0cR\x04datab\x06proto3\
 ";
 
 static mut file_descriptor_proto_lazy: ::protobuf::lazy::Lazy<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::lazy::Lazy {

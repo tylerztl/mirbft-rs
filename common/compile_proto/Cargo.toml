@@ -1,9 +1,9 @@
 [package]
-name = "node"
+name = "compile_proto"
 version = "0.1.0"
 authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
 edition = "2018"
 
 [dependencies]
-logger = { path = "../logger" }
-network = { path = "../network" }
+protoc-grpcio = "1.0.2"
+walkdir = "2.2.8"

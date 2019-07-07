@@ -6,10 +6,10 @@ SPDX-License-Identifier: Apache-2.0
 
 syntax = "proto3";
 
-package mirbft;
+package proto;
 
-message Msg {
-    oneof type {
+message Message {
+    oneof Type {
         Preprepare preprepare = 1;
         Prepare prepare = 2;
         Commit commit = 3;

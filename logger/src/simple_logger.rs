@@ -4,12 +4,10 @@ use slog_scope::set_global_logger;
 use std::{cell::RefCell, io, mem, sync::Mutex};
 use termion::color::*;
 
-
 pub fn init() {
-    set_simple_logger("mirbft");
+    set_simple_logger("", FilterLevel::Debug);
     set_simple_logger_prefix(format!("{}{}", Fg(LightYellow), Fg(Reset)))
 }
-
 
 struct SimpleLogger;
 
@@ -37,8 +35,8 @@ impl Drain for SimpleLogger {
                 record.module(),
                 record.file(),
                 record.line(),
-                record.msg(),
                 prefix,
+                record.msg(),
             )
         });
         Ok(())
@@ -49,11 +47,10 @@ thread_local! {
     pub static PREFIX: RefCell<Option<String>> = RefCell::new(None);
 }
 
-
-fn create_simple_logger(debug_module: &str) -> Logger {
+fn create_simple_logger(debug_module: &str, level: FilterLevel) -> Logger {
     let drain = SimpleLogger.fuse();
     let mut builder = LogBuilder::new(drain);
-    builder = builder.filter(None, FilterLevel::Info);
+    builder = builder.filter(None, level);
     builder = builder.filter(Some(debug_module), FilterLevel::Debug);
 
     if let Ok(s) = ::std::env::var("RUST_LOG") {
@@ -65,8 +62,8 @@ fn create_simple_logger(debug_module: &str) -> Logger {
     Logger::root(Mutex::new(envlogger).fuse(), o!())
 }
 
-fn set_simple_logger(debug_module: &str) {
-    mem::forget(set_global_logger(create_simple_logger(debug_module)));
+fn set_simple_logger(debug_module: &str, level: FilterLevel) {
+    mem::forget(set_global_logger(create_simple_logger(debug_module, level)));
 }
 
 fn set_simple_logger_prefix(id: String) {

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+
+import "mirbft.proto";
+
+service AtomicBroadcast {
+    rpc Broadcast (Message) returns (BroadcastResponse) {}
+}
+
+enum Status {
+    UNKNOWN = 0;
+    SUCCESS = 200;
+    BAD_REQUEST = 400;
+    NOT_FOUND = 404;
+    SERVICE_UNAVAILABLE = 503;
+}
+
+message BroadcastResponse {
+    Status status = 1;
+}

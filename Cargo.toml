@@ -4,6 +4,8 @@ members = [
     "node",
     "proto",
     "logger",
+    "network",
+    "common/compile_proto",
 ]
 
 [profile.release]
