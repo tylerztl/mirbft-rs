@@ -3,7 +3,6 @@ use proto::proto::{
     ab_grpc::AtomicBroadcast,
     ab::{BroadcastResponse, Status},
 };
-use std::sync::Arc;
 use grpcio::{UnarySink, RpcContext};
 use futures::future::Future;
 use logger::prelude::*;

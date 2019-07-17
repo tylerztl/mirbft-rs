@@ -4,7 +4,6 @@ use proto::proto::{
 };
 use std::sync::Arc;
 use grpcio::{ChannelBuilder, EnvBuilder};
-use logger::prelude::*;
 
 pub struct GrpcClient {
     client: AtomicBroadcastClient,

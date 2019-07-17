@@ -2,7 +2,6 @@ use std::{
     path::Path,
     fs::File,
     io::Read,
-    collections::HashMap,
 };
 use failure::prelude::*;
 use toml;
@@ -48,8 +47,8 @@ impl NodeConfig {
 }
 
 pub fn load_node_config() -> NodeConfig {
-    let dirEntry = std::fs::read_dir(crate::CONFIG_PATH).unwrap();
-    for entry in dirEntry {
+    let dir_entry = std::fs::read_dir(crate::CONFIG_PATH).unwrap();
+    for entry in dir_entry {
         let config_path = entry.unwrap().path();
         let config_path_str = config_path.to_str().unwrap();
         if config_path_str.find("node.config.toml").is_some() {
