@@ -11,7 +11,7 @@ pub struct GrpcClient {
 }
 
 impl GrpcClient {
-    pub fn new(host: &str, port: &str) -> Self {
+    pub fn new(host: &str, port: u16) -> Self {
         let conn_addr = format!("{}:{}", host, port);
 
         // Create a GRPC client
@@ -30,7 +30,7 @@ impl GrpcClient {
 #[test]
 fn test_client() {
     use proto::proto::mirbft::Prepare;
-    let mut client = GrpcClient::new("127.0.0.1", "8080");
+    let mut client = GrpcClient::new("127.0.0.1", 8081);
     let mut msg = Message::new();
     msg.set_prepare(Prepare::new());
     client.broadcast(&msg);

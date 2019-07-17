@@ -1,10 +1,7 @@
 [package]
-name = "node"
+name = "failure_macros"
 version = "0.1.0"
 authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
 edition = "2018"
 
 [dependencies]
-logger = { path = "../logger" }
-network = { path = "../network" }
-config = { path = "../config" }

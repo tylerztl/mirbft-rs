@@ -39,7 +39,7 @@ impl GrpcServer {
             .channel_args(channel_args)
             .register_service(create_atomic_broadcast(service))
             .build()
-            .unwrap();
+            .expect("Unable to create grpc server");
 
         GrpcServer { server }
     }

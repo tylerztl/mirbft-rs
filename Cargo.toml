@@ -6,6 +6,7 @@ members = [
     "logger",
     "network",
     "common/compile_proto",
+    "common/failure_ext",
 ]
 
 [profile.release]

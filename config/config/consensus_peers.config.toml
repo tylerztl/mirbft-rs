@@ -1,0 +1,15 @@
+[peers.1]
+address = '127.0.0.1'
+port = 8081
+
+[peers.2]
+address = '127.0.0.1'
+port = 8082
+
+[peers.3]
+address = '127.0.0.1'
+port = 8083
+
+[peers.4]
+address = '127.0.0.1'
+port = 8084
