@@ -11,3 +11,4 @@ crossbeam = "0.7"
 logger = { path = "../logger" }
 proto = { path = "../proto" }
 crypto = { package = "crypto", path = "../common/crypto" }
+config = { path = "../config" }

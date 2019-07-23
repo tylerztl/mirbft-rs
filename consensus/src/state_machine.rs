@@ -5,14 +5,14 @@ use crypto::hash::{
 };
 
 pub struct StateMachine {
-    node_id: usize,
+    peer_id: usize,
     msg_queues: HashMap<Digest, Vec<u8>>,
 }
 
 impl StateMachine {
-    pub fn new(node_id: usize) -> Self {
+    pub fn new(peer_id: usize) -> Self {
         StateMachine {
-            node_id,
+            peer_id,
             msg_queues: HashMap::new(),
         }
     }
@@ -22,5 +22,4 @@ impl StateMachine {
         self.msg_queues.insert(digest, data.clone());
     }
 
-//    pub fn process(&mut self, )
 }

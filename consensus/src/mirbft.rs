@@ -1,4 +1,3 @@
-use crate::*;
 use logger::prelude::*;
 use std::thread;
 use std::sync::{Arc, Mutex};
@@ -8,6 +7,8 @@ use proto::proto::mirbft::{
     Message_oneof_Type,
 };
 use crate::state_machine::StateMachine;
+use crate::timer::BatchTimer;
+use config::node_config::NodeConfig;
 
 pub struct MirBft {
     msg_sender: Sender<Message>,
@@ -16,29 +17,37 @@ pub struct MirBft {
 }
 
 impl MirBft {
-    pub fn new(s: Sender<Message>, r: Receiver<Message>, node_id: usize) -> Self {
+    pub fn new(s: Sender<Message>, r: Receiver<Message>, peer_id: usize) -> Self {
         info!("BFT State Machine Launched.");
         MirBft {
             msg_sender: s,
             msg_receiver: r,
-            state_machine: Arc::new(Mutex::new(StateMachine::new(node_id))),
+            state_machine: Arc::new(Mutex::new(StateMachine::new(peer_id))),
         }
     }
 
-    pub fn start(s: Sender<Message>, r: Receiver<Message>, node_id: usize) {
-        let mut engine = Self::new(s, r, node_id);
+    pub fn start(config: &NodeConfig) {
+        let (bft_sender, bft_receiver) = unbounded();
+        let (time_sender, time_receiver) = unbounded();
+        let mut engine = Self::new(bft_sender, bft_receiver, config.service.peer_id);
+        BatchTimer::start(time_sender, config.consensus.batch_timeout_ms);
+
         let _main_thread = thread::Builder::new()
             .name("consensus".to_string())
             .spawn(move || {
                 loop {
                     let mut get_msg = Err(RecvError);
+                    let mut timeout_msg = Err(RecvError);
                     select! {
                         recv(engine.msg_receiver) -> msg => get_msg = msg,
+                        recv(time_receiver) -> msg => timeout_msg = msg,
                     }
 
                     if let Ok(msg) = get_msg {
-//                        engine.msg_sender.send(msg.clone()).unwrap();
                         engine.process(msg);
+                    }
+                    if let Ok(_msg) = timeout_msg {
+                        engine.propose();
                     }
                 }
             })
@@ -57,5 +66,9 @@ impl MirBft {
             Message_oneof_Type::commit(commit) => {}
             _ => error!("Invalid Message!"),
         }
+    }
+
+    fn propose(&self) {
+
     }
 }

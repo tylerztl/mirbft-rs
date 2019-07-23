@@ -15,7 +15,6 @@ use config::{
 };
 use crossbeam::crossbeam_channel::unbounded;
 use consensus::mirbft::MirBft;
-use consensus::timer::BatchTimer;
 
 pub struct Node {
     pub config: NodeConfig,
@@ -44,13 +43,7 @@ impl Node {
             }
         });
 
-        let (bft_sender, bft_receiver) = unbounded();
-        MirBft::start(bft_sender, msg_receiver, self.config.service.peer_id);
-
-//        let bft_info = bft_receiver.recv().unwrap();
-//        info!("{:?}", bft_info);
-
-        BatchTimer::start(self.config.consensus.batch_timeout_ms);
+        MirBft::start(&self.config);
 
         loop {
             thread::park();
