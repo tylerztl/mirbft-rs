@@ -11,26 +11,24 @@ use crate::timer::BatchTimer;
 use config::node_config::NodeConfig;
 
 pub struct MirBft {
-    msg_sender: Sender<Message>,
     msg_receiver: Receiver<Message>,
     state_machine: Arc<Mutex<StateMachine>>,
 }
 
 impl MirBft {
-    pub fn new(s: Sender<Message>, r: Receiver<Message>, peer_id: usize) -> Self {
+    pub fn new(r: Receiver<Message>, config: NodeConfig) -> Self {
         info!("BFT State Machine Launched.");
         MirBft {
-            msg_sender: s,
             msg_receiver: r,
-            state_machine: Arc::new(Mutex::new(StateMachine::new(peer_id))),
+            state_machine: Arc::new(Mutex::new(StateMachine::new(config))),
         }
     }
 
-    pub fn start(config: &NodeConfig) {
-        let (bft_sender, bft_receiver) = unbounded();
+    pub fn start(r: Receiver<Message>, config: NodeConfig) {
         let (time_sender, time_receiver) = unbounded();
-        let mut engine = Self::new(bft_sender, bft_receiver, config.service.peer_id);
         BatchTimer::start(time_sender, config.consensus.batch_timeout_ms);
+
+        let mut engine = Self::new(r, config);
 
         let _main_thread = thread::Builder::new()
             .name("consensus".to_string())
@@ -68,7 +66,5 @@ impl MirBft {
         }
     }
 
-    fn propose(&self) {
-
-    }
+    fn propose(&self) {}
 }

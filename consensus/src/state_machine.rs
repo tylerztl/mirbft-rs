@@ -1,25 +1,27 @@
-use std::collections::HashMap;
 use crypto::hash::{
     Digest,
     hash as HashValue,
 };
+use crate::epoch::Epoch;
+use config::node_config::NodeConfig;
 
 pub struct StateMachine {
-    peer_id: usize,
-    msg_queues: HashMap<Digest, Vec<u8>>,
+    config: NodeConfig,
+    msg_queues: Vec<Vec<u8>>,
+    current_epoch: Epoch,
 }
 
 impl StateMachine {
-    pub fn new(peer_id: usize) -> Self {
+    pub fn new(config: NodeConfig) -> Self {
         StateMachine {
-            peer_id,
-            msg_queues: HashMap::new(),
+            config: config.clone(),
+            msg_queues: Vec::new(),
+            current_epoch: Epoch::new(config),
         }
     }
 
     pub fn propose(&mut self, data: Vec<u8>) {
-        let digest = HashValue(&data);
-        self.msg_queues.insert(digest, data.clone());
+//        let digest = HashValue(&data);
+        self.msg_queues.push(data);
     }
-
 }

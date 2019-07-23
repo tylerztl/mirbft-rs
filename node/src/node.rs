@@ -10,7 +10,10 @@ use std::{
 };
 use logger::prelude::*;
 use config::{
-    node_config::NodeConfig,
+    node_config::{
+        NodeConfig,
+        load_node_config,
+    },
     consensus_peers::load_consensus_peers_config,
 };
 use crossbeam::crossbeam_channel::unbounded;
@@ -22,9 +25,9 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new(config: NodeConfig) -> Self {
+    pub fn new() -> Self {
         Node {
-            config,
+            config: load_node_config(),
             clients: setup_client(),
         }
     }
@@ -43,7 +46,7 @@ impl Node {
             }
         });
 
-        MirBft::start(&self.config);
+        MirBft::start(msg_receiver, self.config.clone());
 
         loop {
             thread::park();
