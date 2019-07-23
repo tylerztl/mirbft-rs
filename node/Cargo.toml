@@ -5,6 +5,8 @@ authors = ["zhangtailin <zhangtailin@ziggurat.cn>"]
 edition = "2018"
 
 [dependencies]
+crossbeam = "0.7"
 logger = { path = "../logger" }
 network = { path = "../network" }
 config = { path = "../config" }
+consensus = { path = "../consensus" }

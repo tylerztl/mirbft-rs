@@ -9,14 +9,21 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ServiceConfig {
-    pub peer_id: String,
+    pub peer_id: usize,
     pub address: String,
     pub port: u16,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ConsensusConfig {
+    pub batch_size: usize,
+    pub batch_timeout_ms: u64,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct NodeConfig {
     pub service: ServiceConfig,
+    pub consensus: ConsensusConfig,
 }
 
 impl NodeConfig {

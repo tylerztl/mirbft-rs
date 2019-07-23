@@ -5,8 +5,11 @@ members = [
     "proto",
     "logger",
     "network",
+    "config",
+    "consensus",
     "common/compile_proto",
     "common/failure_ext",
+    "common/crypto",
 ]
 
 [profile.release]

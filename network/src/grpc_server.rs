@@ -3,9 +3,11 @@ use std::str::FromStr;
 use std::cmp::max;
 use std::net::SocketAddr;
 
+use proto::proto::mirbft::Message;
 use proto::proto::ab_grpc::create_atomic_broadcast;
 use grpcio_sys;
 use grpcio::{ChannelBuilder, EnvBuilder, Server, ServerBuilder};
+use crossbeam::crossbeam_channel::Sender;
 
 const DEFAULT_GRPC_STREAM_INITIAL_WINDOW_SIZE: i32 = 2 * 1024 * 1024;
 const DEFAULT_GRPC_CONCURRENT_STREAM: i32 = 1024;
@@ -16,7 +18,7 @@ pub struct GrpcServer {
 }
 
 impl GrpcServer {
-    pub fn new(addr: &str) -> Self {
+    pub fn new(addr: &str, msg_sender: Sender<Message>) -> Self {
         let address: SocketAddr = SocketAddr::from_str(addr).unwrap();
 
         let env = Arc::new(
@@ -33,7 +35,7 @@ impl GrpcServer {
             .max_receive_message_len(MAX_GRPC_MSG_LEN)
             .build_args();
 
-        let service = super::broadcast::BroadcastService::new();
+        let service = super::broadcast::BroadcastService::new(msg_sender);
         let server = ServerBuilder::new(Arc::clone(&env))
             .bind(format!("{}", address.ip()), address.port())
             .channel_args(channel_args)
