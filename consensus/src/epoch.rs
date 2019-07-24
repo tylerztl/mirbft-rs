@@ -3,8 +3,6 @@ use crate::*;
 use config::MirConfig;
 use std::collections::HashMap;
 
-struct EpochConfig {}
-
 pub struct Epoch {
     // number is the epoch number
     pub number: u64,

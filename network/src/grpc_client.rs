@@ -1,5 +1,4 @@
 use grpcio::{ChannelBuilder, EnvBuilder};
-use proto::proto::mirbft::Proposal;
 use proto::proto::{ab_grpc::AtomicBroadcastClient, mirbft::Message};
 use std::sync::Arc;
 
@@ -32,5 +31,7 @@ fn test_client() {
     let mut proposal = Proposal::new();
     proposal.set_payload(vec![1, 2, 3, 4]);
     msg.set_proposal(proposal);
-    client.broadcast(&msg);
+    for _i in 0..1 {
+        client.broadcast(&msg);
+    }
 }

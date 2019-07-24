@@ -57,7 +57,12 @@ impl MirBft {
                     engine.process(msg);
                 }
                 if let Ok(_msg) = timeout_msg {
-                    engine.propose();
+                    let batch = engine.state_machine.clone().lock().unwrap().handle_batch();
+                    if batch.is_some() {
+                        let batch_msg = batch.unwrap();
+                        engine.broadcast(&batch_msg);
+                        engine.process(batch_msg);
+                    }
                 }
             })
             .unwrap();
@@ -99,15 +104,16 @@ impl MirBft {
                 }
             }
             Message_oneof_Type::forward(forward) => {
-                let machine = self.state_machine.clone();
-                machine.lock().unwrap().propose(forward.payload);
+                self.state_machine
+                    .clone()
+                    .lock()
+                    .unwrap()
+                    .propose(forward.payload);
             }
-            Message_oneof_Type::preprepare(preprepare) => {}
-            Message_oneof_Type::prepare(prepare) => {}
-            Message_oneof_Type::commit(commit) => {}
+            Message_oneof_Type::preprepare(_preprepare) => {}
+            Message_oneof_Type::prepare(_prepare) => {}
+            Message_oneof_Type::commit(_commit) => {}
             _ => error!("Invalid Message!"),
         }
     }
-
-    fn propose(&self) {}
 }
