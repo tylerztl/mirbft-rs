@@ -1,18 +1,30 @@
 use crate::bucket::Bucket;
 use crate::*;
-use config::node_config::NodeConfig;
+use config::MirConfig;
 use std::collections::HashMap;
 
 struct EpochConfig {}
 
 pub struct Epoch {
-    buckets: HashMap<BucketID, Bucket>,
+    // number is the epoch number
+    pub number: u64,
+    pub nodes: Vec<NodeID>,
+    pub buckets: HashMap<BucketID, Bucket>,
 }
 
 impl Epoch {
-    pub fn new(config: NodeConfig) -> Self {
+    pub fn new(config: MirConfig) -> Self {
+        let mut buckets = HashMap::new();
+        let mut nodes = Vec::new();
+        for (id, _v) in config.consensus_config.peers {
+            let id = id.parse::<u64>().unwrap();
+            buckets.insert(id, Bucket::new(id, id));
+            nodes.push(id);
+        }
         Epoch {
-            buckets: HashMap::new(),
+            number: 0,
+            nodes,
+            buckets,
         }
     }
 }

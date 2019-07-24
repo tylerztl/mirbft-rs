@@ -4,9 +4,9 @@ use crate::sequence::Sequence;
 use crate::*;
 
 pub struct Bucket {
-    leader: NodeID,
-    id: BucketID,
-    sequences: HashMap<SeqNo, Sequence>,
+    pub leader: NodeID,
+    pub id: BucketID,
+    pub sequences: HashMap<SeqNo, Sequence>,
 }
 
 impl Bucket {

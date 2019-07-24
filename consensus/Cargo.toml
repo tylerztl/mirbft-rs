@@ -12,3 +12,5 @@ logger = { path = "../logger" }
 proto = { path = "../proto" }
 crypto = { package = "crypto", path = "../common/crypto" }
 config = { path = "../config" }
+network = { path = "../network" }
+byteorder = "1.3.2"

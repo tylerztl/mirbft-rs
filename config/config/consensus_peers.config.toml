@@ -13,3 +13,7 @@ port = 8083
 [peers.4]
 address = '127.0.0.1'
 port = 8084
+
+[consensus]
+batch_size = 10
+batch_timeout_ms = 1000

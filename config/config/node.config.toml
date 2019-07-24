@@ -2,7 +2,3 @@
 peer_id = 1
 address = '127.0.0.1'
 port = 8081
-
-[consensus]
-batch_size = 10
-batch_timeout_ms = 1000

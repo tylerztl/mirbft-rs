@@ -11,16 +11,22 @@ package proto;
 message Message {
     oneof Type {
         Proposal proposal = 1;
-        Preprepare preprepare = 2;
-        Prepare prepare = 3;
-        Commit commit = 4;
-        Forward forward = 5;
+        Forward forward = 2;
+        Preprepare preprepare = 3;
+        Prepare prepare = 4;
+        Commit commit = 5;
         Checkpoint checkpoint = 6;
     }
 }
 
 message Proposal {
     bytes payload = 1;
+};
+
+message Forward {
+    uint64 epoch = 1;
+    uint64 bucket = 2;
+    bytes payload = 3;
 };
 
 message Preprepare {
@@ -48,10 +54,4 @@ message Checkpoint {
     uint64 seq_no = 1;
     bytes value = 2;
     bytes attestation = 3;
-}
-
-message Forward {
-    uint64 epoch = 1;
-    uint64 bucket = 2;
-    bytes data = 3;
 }

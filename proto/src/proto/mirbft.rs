@@ -44,10 +44,10 @@ impl<'a> ::std::default::Default for &'a Message {
 #[derive(Clone,PartialEq,Debug)]
 pub enum Message_oneof_Type {
     proposal(Proposal),
+    forward(Forward),
     preprepare(Preprepare),
     prepare(Prepare),
     commit(Commit),
-    forward(Forward),
     checkpoint(Checkpoint),
 }
 
@@ -105,7 +105,56 @@ impl Message {
         }
     }
 
-    // .proto.Preprepare preprepare = 2;
+    // .proto.Forward forward = 2;
+
+
+    pub fn get_forward(&self) -> &Forward {
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(ref v)) => v,
+            _ => Forward::default_instance(),
+        }
+    }
+    pub fn clear_forward(&mut self) {
+        self.Type = ::std::option::Option::None;
+    }
+
+    pub fn has_forward(&self) -> bool {
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(..)) => true,
+            _ => false,
+        }
+    }
+
+    // Param is passed by value, moved
+    pub fn set_forward(&mut self, v: Forward) {
+        self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(v))
+    }
+
+    // Mutable pointer to the field.
+    pub fn mut_forward(&mut self) -> &mut Forward {
+        if let ::std::option::Option::Some(Message_oneof_Type::forward(_)) = self.Type {
+        } else {
+            self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(Forward::new()));
+        }
+        match self.Type {
+            ::std::option::Option::Some(Message_oneof_Type::forward(ref mut v)) => v,
+            _ => panic!(),
+        }
+    }
+
+    // Take field
+    pub fn take_forward(&mut self) -> Forward {
+        if self.has_forward() {
+            match self.Type.take() {
+                ::std::option::Option::Some(Message_oneof_Type::forward(v)) => v,
+                _ => panic!(),
+            }
+        } else {
+            Forward::new()
+        }
+    }
+
+    // .proto.Preprepare preprepare = 3;
 
 
     pub fn get_preprepare(&self) -> &Preprepare {
@@ -154,7 +203,7 @@ impl Message {
         }
     }
 
-    // .proto.Prepare prepare = 3;
+    // .proto.Prepare prepare = 4;
 
 
     pub fn get_prepare(&self) -> &Prepare {
@@ -203,7 +252,7 @@ impl Message {
         }
     }
 
-    // .proto.Commit commit = 4;
+    // .proto.Commit commit = 5;
 
 
     pub fn get_commit(&self) -> &Commit {
@@ -249,55 +298,6 @@ impl Message {
             }
         } else {
             Commit::new()
-        }
-    }
-
-    // .proto.Forward forward = 5;
-
-
-    pub fn get_forward(&self) -> &Forward {
-        match self.Type {
-            ::std::option::Option::Some(Message_oneof_Type::forward(ref v)) => v,
-            _ => Forward::default_instance(),
-        }
-    }
-    pub fn clear_forward(&mut self) {
-        self.Type = ::std::option::Option::None;
-    }
-
-    pub fn has_forward(&self) -> bool {
-        match self.Type {
-            ::std::option::Option::Some(Message_oneof_Type::forward(..)) => true,
-            _ => false,
-        }
-    }
-
-    // Param is passed by value, moved
-    pub fn set_forward(&mut self, v: Forward) {
-        self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(v))
-    }
-
-    // Mutable pointer to the field.
-    pub fn mut_forward(&mut self) -> &mut Forward {
-        if let ::std::option::Option::Some(Message_oneof_Type::forward(_)) = self.Type {
-        } else {
-            self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(Forward::new()));
-        }
-        match self.Type {
-            ::std::option::Option::Some(Message_oneof_Type::forward(ref mut v)) => v,
-            _ => panic!(),
-        }
-    }
-
-    // Take field
-    pub fn take_forward(&mut self) -> Forward {
-        if self.has_forward() {
-            match self.Type.take() {
-                ::std::option::Option::Some(Message_oneof_Type::forward(v)) => v,
-                _ => panic!(),
-            }
-        } else {
-            Forward::new()
         }
     }
 
@@ -358,6 +358,11 @@ impl ::protobuf::Message for Message {
                 return false;
             }
         }
+        if let Some(Message_oneof_Type::forward(ref v)) = self.Type {
+            if !v.is_initialized() {
+                return false;
+            }
+        }
         if let Some(Message_oneof_Type::preprepare(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
@@ -369,11 +374,6 @@ impl ::protobuf::Message for Message {
             }
         }
         if let Some(Message_oneof_Type::commit(ref v)) = self.Type {
-            if !v.is_initialized() {
-                return false;
-            }
-        }
-        if let Some(Message_oneof_Type::forward(ref v)) = self.Type {
             if !v.is_initialized() {
                 return false;
             }
@@ -400,25 +400,25 @@ impl ::protobuf::Message for Message {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.Type = ::std::option::Option::Some(Message_oneof_Type::preprepare(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(is.read_message()?));
                 },
                 3 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.Type = ::std::option::Option::Some(Message_oneof_Type::prepare(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::preprepare(is.read_message()?));
                 },
                 4 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.Type = ::std::option::Option::Some(Message_oneof_Type::commit(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::prepare(is.read_message()?));
                 },
                 5 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
                         return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
                     }
-                    self.Type = ::std::option::Option::Some(Message_oneof_Type::forward(is.read_message()?));
+                    self.Type = ::std::option::Option::Some(Message_oneof_Type::commit(is.read_message()?));
                 },
                 6 => {
                     if wire_type != ::protobuf::wire_format::WireTypeLengthDelimited {
@@ -444,6 +444,10 @@ impl ::protobuf::Message for Message {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
+                &Message_oneof_Type::forward(ref v) => {
+                    let len = v.compute_size();
+                    my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
+                },
                 &Message_oneof_Type::preprepare(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
@@ -453,10 +457,6 @@ impl ::protobuf::Message for Message {
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
                 &Message_oneof_Type::commit(ref v) => {
-                    let len = v.compute_size();
-                    my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
-                },
-                &Message_oneof_Type::forward(ref v) => {
                     let len = v.compute_size();
                     my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
                 },
@@ -479,22 +479,22 @@ impl ::protobuf::Message for Message {
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Message_oneof_Type::preprepare(ref v) => {
+                &Message_oneof_Type::forward(ref v) => {
                     os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Message_oneof_Type::prepare(ref v) => {
+                &Message_oneof_Type::preprepare(ref v) => {
                     os.write_tag(3, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Message_oneof_Type::commit(ref v) => {
+                &Message_oneof_Type::prepare(ref v) => {
                     os.write_tag(4, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
                 },
-                &Message_oneof_Type::forward(ref v) => {
+                &Message_oneof_Type::commit(ref v) => {
                     os.write_tag(5, ::protobuf::wire_format::WireTypeLengthDelimited)?;
                     os.write_raw_varint32(v.get_cached_size())?;
                     v.write_to_with_cached_sizes(os)?;
@@ -553,6 +553,11 @@ impl ::protobuf::Message for Message {
                     Message::has_proposal,
                     Message::get_proposal,
                 ));
+                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Forward>(
+                    "forward",
+                    Message::has_forward,
+                    Message::get_forward,
+                ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Preprepare>(
                     "preprepare",
                     Message::has_preprepare,
@@ -567,11 +572,6 @@ impl ::protobuf::Message for Message {
                     "commit",
                     Message::has_commit,
                     Message::get_commit,
-                ));
-                fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Forward>(
-                    "forward",
-                    Message::has_forward,
-                    Message::get_forward,
                 ));
                 fields.push(::protobuf::reflect::accessor::make_singular_message_accessor::<_, Checkpoint>(
                     "checkpoint",
@@ -786,6 +786,245 @@ impl ::std::fmt::Debug for Proposal {
 }
 
 impl ::protobuf::reflect::ProtobufValue for Proposal {
+    fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
+        ::protobuf::reflect::ProtobufValueRef::Message(self)
+    }
+}
+
+#[derive(PartialEq,Clone,Default)]
+pub struct Forward {
+    // message fields
+    pub epoch: u64,
+    pub bucket: u64,
+    pub payload: ::std::vec::Vec<u8>,
+    // special fields
+    pub unknown_fields: ::protobuf::UnknownFields,
+    pub cached_size: ::protobuf::CachedSize,
+}
+
+impl<'a> ::std::default::Default for &'a Forward {
+    fn default() -> &'a Forward {
+        <Forward as ::protobuf::Message>::default_instance()
+    }
+}
+
+impl Forward {
+    pub fn new() -> Forward {
+        ::std::default::Default::default()
+    }
+
+    // uint64 epoch = 1;
+
+
+    pub fn get_epoch(&self) -> u64 {
+        self.epoch
+    }
+    pub fn clear_epoch(&mut self) {
+        self.epoch = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_epoch(&mut self, v: u64) {
+        self.epoch = v;
+    }
+
+    // uint64 bucket = 2;
+
+
+    pub fn get_bucket(&self) -> u64 {
+        self.bucket
+    }
+    pub fn clear_bucket(&mut self) {
+        self.bucket = 0;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_bucket(&mut self, v: u64) {
+        self.bucket = v;
+    }
+
+    // bytes payload = 3;
+
+
+    pub fn get_payload(&self) -> &[u8] {
+        &self.payload
+    }
+    pub fn clear_payload(&mut self) {
+        self.payload.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_payload(&mut self, v: ::std::vec::Vec<u8>) {
+        self.payload = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_payload(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.payload
+    }
+
+    // Take field
+    pub fn take_payload(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.payload, ::std::vec::Vec::new())
+    }
+}
+
+impl ::protobuf::Message for Forward {
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream) -> ::protobuf::ProtobufResult<()> {
+        while !is.eof()? {
+            let (field_number, wire_type) = is.read_tag_unpack()?;
+            match field_number {
+                1 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint64()?;
+                    self.epoch = tmp;
+                },
+                2 => {
+                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
+                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
+                    }
+                    let tmp = is.read_uint64()?;
+                    self.bucket = tmp;
+                },
+                3 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.payload)?;
+                },
+                _ => {
+                    ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u32 {
+        let mut my_size = 0;
+        if self.epoch != 0 {
+            my_size += ::protobuf::rt::value_size(1, self.epoch, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if self.bucket != 0 {
+            my_size += ::protobuf::rt::value_size(2, self.bucket, ::protobuf::wire_format::WireTypeVarint);
+        }
+        if !self.payload.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(3, &self.payload);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
+        self.cached_size.set(my_size);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
+        if self.epoch != 0 {
+            os.write_uint64(1, self.epoch)?;
+        }
+        if self.bucket != 0 {
+            os.write_uint64(2, self.bucket)?;
+        }
+        if !self.payload.is_empty() {
+            os.write_bytes(3, &self.payload)?;
+        }
+        os.write_unknown_fields(self.get_unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn get_cached_size(&self) -> u32 {
+        self.cached_size.get()
+    }
+
+    fn get_unknown_fields(&self) -> &::protobuf::UnknownFields {
+        &self.unknown_fields
+    }
+
+    fn mut_unknown_fields(&mut self) -> &mut ::protobuf::UnknownFields {
+        &mut self.unknown_fields
+    }
+
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+    fn as_any_mut(&mut self) -> &mut ::std::any::Any {
+        self as &mut ::std::any::Any
+    }
+    fn into_any(self: Box<Self>) -> ::std::boxed::Box<::std::any::Any> {
+        self
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        Self::descriptor_static()
+    }
+
+    fn new() -> Forward {
+        Forward::new()
+    }
+
+    fn descriptor_static() -> &'static ::protobuf::reflect::MessageDescriptor {
+        static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const ::protobuf::reflect::MessageDescriptor,
+        };
+        unsafe {
+            descriptor.get(|| {
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint64>(
+                    "epoch",
+                    |m: &Forward| { &m.epoch },
+                    |m: &mut Forward| { &mut m.epoch },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint64>(
+                    "bucket",
+                    |m: &Forward| { &m.bucket },
+                    |m: &mut Forward| { &mut m.bucket },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "payload",
+                    |m: &Forward| { &m.payload },
+                    |m: &mut Forward| { &mut m.payload },
+                ));
+                ::protobuf::reflect::MessageDescriptor::new::<Forward>(
+                    "Forward",
+                    fields,
+                    file_descriptor_proto()
+                )
+            })
+        }
+    }
+
+    fn default_instance() -> &'static Forward {
+        static mut instance: ::protobuf::lazy::Lazy<Forward> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const Forward,
+        };
+        unsafe {
+            instance.get(Forward::new)
+        }
+    }
+}
+
+impl ::protobuf::Clear for Forward {
+    fn clear(&mut self) {
+        self.epoch = 0;
+        self.bucket = 0;
+        self.payload.clear();
+        self.unknown_fields.clear();
+    }
+}
+
+impl ::std::fmt::Debug for Forward {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for Forward {
     fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
         ::protobuf::reflect::ProtobufValueRef::Message(self)
     }
@@ -1858,269 +2097,30 @@ impl ::protobuf::reflect::ProtobufValue for Checkpoint {
     }
 }
 
-#[derive(PartialEq,Clone,Default)]
-pub struct Forward {
-    // message fields
-    pub epoch: u64,
-    pub bucket: u64,
-    pub data: ::std::vec::Vec<u8>,
-    // special fields
-    pub unknown_fields: ::protobuf::UnknownFields,
-    pub cached_size: ::protobuf::CachedSize,
-}
-
-impl<'a> ::std::default::Default for &'a Forward {
-    fn default() -> &'a Forward {
-        <Forward as ::protobuf::Message>::default_instance()
-    }
-}
-
-impl Forward {
-    pub fn new() -> Forward {
-        ::std::default::Default::default()
-    }
-
-    // uint64 epoch = 1;
-
-
-    pub fn get_epoch(&self) -> u64 {
-        self.epoch
-    }
-    pub fn clear_epoch(&mut self) {
-        self.epoch = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_epoch(&mut self, v: u64) {
-        self.epoch = v;
-    }
-
-    // uint64 bucket = 2;
-
-
-    pub fn get_bucket(&self) -> u64 {
-        self.bucket
-    }
-    pub fn clear_bucket(&mut self) {
-        self.bucket = 0;
-    }
-
-    // Param is passed by value, moved
-    pub fn set_bucket(&mut self, v: u64) {
-        self.bucket = v;
-    }
-
-    // bytes data = 3;
-
-
-    pub fn get_data(&self) -> &[u8] {
-        &self.data
-    }
-    pub fn clear_data(&mut self) {
-        self.data.clear();
-    }
-
-    // Param is passed by value, moved
-    pub fn set_data(&mut self, v: ::std::vec::Vec<u8>) {
-        self.data = v;
-    }
-
-    // Mutable pointer to the field.
-    // If field is not initialized, it is initialized with default value first.
-    pub fn mut_data(&mut self) -> &mut ::std::vec::Vec<u8> {
-        &mut self.data
-    }
-
-    // Take field
-    pub fn take_data(&mut self) -> ::std::vec::Vec<u8> {
-        ::std::mem::replace(&mut self.data, ::std::vec::Vec::new())
-    }
-}
-
-impl ::protobuf::Message for Forward {
-    fn is_initialized(&self) -> bool {
-        true
-    }
-
-    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream) -> ::protobuf::ProtobufResult<()> {
-        while !is.eof()? {
-            let (field_number, wire_type) = is.read_tag_unpack()?;
-            match field_number {
-                1 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint64()?;
-                    self.epoch = tmp;
-                },
-                2 => {
-                    if wire_type != ::protobuf::wire_format::WireTypeVarint {
-                        return ::std::result::Result::Err(::protobuf::rt::unexpected_wire_type(wire_type));
-                    }
-                    let tmp = is.read_uint64()?;
-                    self.bucket = tmp;
-                },
-                3 => {
-                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.data)?;
-                },
-                _ => {
-                    ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
-                },
-            };
-        }
-        ::std::result::Result::Ok(())
-    }
-
-    // Compute sizes of nested messages
-    #[allow(unused_variables)]
-    fn compute_size(&self) -> u32 {
-        let mut my_size = 0;
-        if self.epoch != 0 {
-            my_size += ::protobuf::rt::value_size(1, self.epoch, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if self.bucket != 0 {
-            my_size += ::protobuf::rt::value_size(2, self.bucket, ::protobuf::wire_format::WireTypeVarint);
-        }
-        if !self.data.is_empty() {
-            my_size += ::protobuf::rt::bytes_size(3, &self.data);
-        }
-        my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
-        self.cached_size.set(my_size);
-        my_size
-    }
-
-    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if self.epoch != 0 {
-            os.write_uint64(1, self.epoch)?;
-        }
-        if self.bucket != 0 {
-            os.write_uint64(2, self.bucket)?;
-        }
-        if !self.data.is_empty() {
-            os.write_bytes(3, &self.data)?;
-        }
-        os.write_unknown_fields(self.get_unknown_fields())?;
-        ::std::result::Result::Ok(())
-    }
-
-    fn get_cached_size(&self) -> u32 {
-        self.cached_size.get()
-    }
-
-    fn get_unknown_fields(&self) -> &::protobuf::UnknownFields {
-        &self.unknown_fields
-    }
-
-    fn mut_unknown_fields(&mut self) -> &mut ::protobuf::UnknownFields {
-        &mut self.unknown_fields
-    }
-
-    fn as_any(&self) -> &::std::any::Any {
-        self as &::std::any::Any
-    }
-    fn as_any_mut(&mut self) -> &mut ::std::any::Any {
-        self as &mut ::std::any::Any
-    }
-    fn into_any(self: Box<Self>) -> ::std::boxed::Box<::std::any::Any> {
-        self
-    }
-
-    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
-        Self::descriptor_static()
-    }
-
-    fn new() -> Forward {
-        Forward::new()
-    }
-
-    fn descriptor_static() -> &'static ::protobuf::reflect::MessageDescriptor {
-        static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
-            lock: ::protobuf::lazy::ONCE_INIT,
-            ptr: 0 as *const ::protobuf::reflect::MessageDescriptor,
-        };
-        unsafe {
-            descriptor.get(|| {
-                let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint64>(
-                    "epoch",
-                    |m: &Forward| { &m.epoch },
-                    |m: &mut Forward| { &mut m.epoch },
-                ));
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeUint64>(
-                    "bucket",
-                    |m: &Forward| { &m.bucket },
-                    |m: &mut Forward| { &mut m.bucket },
-                ));
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
-                    "data",
-                    |m: &Forward| { &m.data },
-                    |m: &mut Forward| { &mut m.data },
-                ));
-                ::protobuf::reflect::MessageDescriptor::new::<Forward>(
-                    "Forward",
-                    fields,
-                    file_descriptor_proto()
-                )
-            })
-        }
-    }
-
-    fn default_instance() -> &'static Forward {
-        static mut instance: ::protobuf::lazy::Lazy<Forward> = ::protobuf::lazy::Lazy {
-            lock: ::protobuf::lazy::ONCE_INIT,
-            ptr: 0 as *const Forward,
-        };
-        unsafe {
-            instance.get(Forward::new)
-        }
-    }
-}
-
-impl ::protobuf::Clear for Forward {
-    fn clear(&mut self) {
-        self.epoch = 0;
-        self.bucket = 0;
-        self.data.clear();
-        self.unknown_fields.clear();
-    }
-}
-
-impl ::std::fmt::Debug for Forward {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        ::protobuf::text_format::fmt(self, f)
-    }
-}
-
-impl ::protobuf::reflect::ProtobufValue for Forward {
-    fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
-        ::protobuf::reflect::ProtobufValueRef::Message(self)
-    }
-}
-
 static file_descriptor_proto_data: &'static [u8] = b"\
     \n\x0cmirbft.proto\x12\x05proto\"\xab\x02\n\x07Message\x12-\n\x08proposa\
-    l\x18\x01\x20\x01(\x0b2\x0f.proto.ProposalH\0R\x08proposal\x123\n\nprepr\
-    epare\x18\x02\x20\x01(\x0b2\x11.proto.PreprepareH\0R\npreprepare\x12*\n\
-    \x07prepare\x18\x03\x20\x01(\x0b2\x0e.proto.PrepareH\0R\x07prepare\x12'\
-    \n\x06commit\x18\x04\x20\x01(\x0b2\r.proto.CommitH\0R\x06commit\x12*\n\
-    \x07forward\x18\x05\x20\x01(\x0b2\x0e.proto.ForwardH\0R\x07forward\x123\
-    \n\ncheckpoint\x18\x06\x20\x01(\x0b2\x11.proto.CheckpointH\0R\ncheckpoin\
-    tB\x06\n\x04Type\"$\n\x08Proposal\x12\x18\n\x07payload\x18\x01\x20\x01(\
-    \x0cR\x07payload\"g\n\nPreprepare\x12\x15\n\x06seq_no\x18\x01\x20\x01(\
-    \x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\x12\x16\
-    \n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x14\n\x05batch\x18\x04\
-    \x20\x03(\x0cR\x05batch\"f\n\x07Prepare\x12\x15\n\x06seq_no\x18\x01\x20\
-    \x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05epoch\
-    \x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x16\n\x06digest\
-    \x18\x04\x20\x01(\x0cR\x06digest\"e\n\x06Commit\x12\x15\n\x06seq_no\x18\
-    \x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\x01(\x04R\x05\
-    epoch\x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\x12\x16\n\x06d\
-    igest\x18\x04\x20\x01(\x0cR\x06digest\"[\n\nCheckpoint\x12\x15\n\x06seq_\
-    no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05value\x18\x02\x20\x01(\
-    \x0cR\x05value\x12\x20\n\x0battestation\x18\x03\x20\x01(\x0cR\x0battesta\
-    tion\"K\n\x07Forward\x12\x14\n\x05epoch\x18\x01\x20\x01(\x04R\x05epoch\
-    \x12\x16\n\x06bucket\x18\x02\x20\x01(\x04R\x06bucket\x12\x12\n\x04data\
-    \x18\x03\x20\x01(\x0cR\x04datab\x06proto3\
+    l\x18\x01\x20\x01(\x0b2\x0f.proto.ProposalH\0R\x08proposal\x12*\n\x07for\
+    ward\x18\x02\x20\x01(\x0b2\x0e.proto.ForwardH\0R\x07forward\x123\n\nprep\
+    repare\x18\x03\x20\x01(\x0b2\x11.proto.PreprepareH\0R\npreprepare\x12*\n\
+    \x07prepare\x18\x04\x20\x01(\x0b2\x0e.proto.PrepareH\0R\x07prepare\x12'\
+    \n\x06commit\x18\x05\x20\x01(\x0b2\r.proto.CommitH\0R\x06commit\x123\n\n\
+    checkpoint\x18\x06\x20\x01(\x0b2\x11.proto.CheckpointH\0R\ncheckpointB\
+    \x06\n\x04Type\"$\n\x08Proposal\x12\x18\n\x07payload\x18\x01\x20\x01(\
+    \x0cR\x07payload\"Q\n\x07Forward\x12\x14\n\x05epoch\x18\x01\x20\x01(\x04\
+    R\x05epoch\x12\x16\n\x06bucket\x18\x02\x20\x01(\x04R\x06bucket\x12\x18\n\
+    \x07payload\x18\x03\x20\x01(\x0cR\x07payload\"g\n\nPreprepare\x12\x15\n\
+    \x06seq_no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\x02\x20\
+    \x01(\x04R\x05epoch\x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\x06bucket\
+    \x12\x14\n\x05batch\x18\x04\x20\x03(\x0cR\x05batch\"f\n\x07Prepare\x12\
+    \x15\n\x06seq_no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05epoch\x18\
+    \x02\x20\x01(\x04R\x05epoch\x12\x16\n\x06bucket\x18\x03\x20\x01(\x04R\
+    \x06bucket\x12\x16\n\x06digest\x18\x04\x20\x01(\x0cR\x06digest\"e\n\x06C\
+    ommit\x12\x15\n\x06seq_no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\n\x05ep\
+    och\x18\x02\x20\x01(\x04R\x05epoch\x12\x16\n\x06bucket\x18\x03\x20\x01(\
+    \x04R\x06bucket\x12\x16\n\x06digest\x18\x04\x20\x01(\x0cR\x06digest\"[\n\
+    \nCheckpoint\x12\x15\n\x06seq_no\x18\x01\x20\x01(\x04R\x05seqNo\x12\x14\
+    \n\x05value\x18\x02\x20\x01(\x0cR\x05value\x12\x20\n\x0battestation\x18\
+    \x03\x20\x01(\x0cR\x0battestationb\x06proto3\
 ";
 
 static mut file_descriptor_proto_lazy: ::protobuf::lazy::Lazy<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::lazy::Lazy {

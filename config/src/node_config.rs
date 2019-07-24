@@ -5,30 +5,23 @@ use toml;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ServiceConfig {
-    pub peer_id: usize,
+    pub peer_id: u64,
     pub address: String,
     pub port: u16,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct ConsensusConfig {
-    pub batch_size: usize,
-    pub batch_timeout_ms: u64,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct NodeConfig {
     pub service: ServiceConfig,
-    pub consensus: ConsensusConfig,
 }
 
 impl NodeConfig {
-    pub fn load_config<P: AsRef<Path>>(path: P) -> Result<Self> {
+    fn load_config<P: AsRef<Path>>(path: P) -> Result<Self> {
         Ok(Self::load_template(&path)?)
     }
 
     /// Reads the config file and returns the configuration object
-    pub fn load_template<P: AsRef<Path>>(path: P) -> Result<Self> {
+    fn load_template<P: AsRef<Path>>(path: P) -> Result<Self> {
         let path = path.as_ref();
         let mut file =
             File::open(path).with_context(|_| format!("Cannot open NodeConfig file {:?}", path))?;

@@ -8,19 +8,26 @@ pub struct PeerConfig {
     pub port: u16,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ConsensusConfig {
+    pub batch_size: usize,
+    pub batch_timeout_ms: u64,
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ConsensusPeersConfig {
     pub peers: HashMap<String, PeerConfig>,
+    pub consensus: ConsensusConfig,
 }
 
 impl ConsensusPeersConfig {
-    pub fn load_config<P: AsRef<Path>>(path: P) -> Self {
+    fn load_config<P: AsRef<Path>>(path: P) -> Self {
         let path = path.as_ref();
         let mut file = File::open(path)
-            .unwrap_or_else(|_| panic!("Cannot open Trusted Peers Config file {:?}", path));
+            .unwrap_or_else(|_| panic!("Cannot open Consensus Peers Config file {:?}", path));
         let mut contents = String::new();
         file.read_to_string(&mut contents)
-            .unwrap_or_else(|_| panic!("Error reading Trusted Peers Config file {:?}", path));
+            .unwrap_or_else(|_| panic!("Error reading Consensus Peers Config file {:?}", path));
 
         Self::parse(&contents)
     }

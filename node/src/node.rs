@@ -1,31 +1,33 @@
-use config::{
-    consensus_peers::load_consensus_peers_config,
-    node_config::{load_node_config, NodeConfig},
-};
+use config::MirConfig;
 use consensus::mirbft::MirBft;
+use consensus::NodeID;
 use crossbeam::crossbeam_channel::unbounded;
 use logger::prelude::*;
 use network::{GrpcClient, GrpcServer};
 use std::{collections::HashMap, sync::Arc, thread, time};
 
 pub struct Node {
-    pub config: NodeConfig,
-    pub clients: HashMap<String, Arc<GrpcClient>>,
+    pub config: MirConfig,
+    pub clients: HashMap<NodeID, Arc<GrpcClient>>,
 }
 
 impl Node {
     pub fn new() -> Self {
-        Node {
-            config: load_node_config(),
-            clients: setup_client(),
+        let config = MirConfig::load();
+        let mut clients = HashMap::new();
+        for (key, val) in config.consensus_config.peers.iter() {
+            let client = Arc::new(GrpcClient::new(val.address.as_str(), val.port));
+            let key = key.clone().parse::<u64>().unwrap();
+            clients.insert(key, client);
         }
+        Node { config, clients }
     }
 
     pub fn run(&self) {
         logger::init();
         let connection_str = format!(
             "{}:{}",
-            self.config.service.address, self.config.service.port
+            self.config.node_config.service.address, self.config.node_config.service.port
         );
         let (msg_sender, msg_receiver) = unbounded();
 
@@ -44,14 +46,4 @@ impl Node {
             thread::park();
         }
     }
-}
-
-fn setup_client() -> HashMap<String, Arc<GrpcClient>> {
-    let config = load_consensus_peers_config();
-    let mut map = HashMap::new();
-    for (key, val) in config.peers.iter() {
-        let client = Arc::new(GrpcClient::new(val.address.as_str(), val.port));
-        map.insert(key.clone(), client);
-    }
-    map
 }
