@@ -1,11 +1,7 @@
-use std::{
-    path::Path,
-    fs::File,
-    io::Read,
-};
 use failure::prelude::*;
-use toml;
 use serde::{Deserialize, Serialize};
+use std::{fs::File, io::Read, path::Path};
+use toml;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ServiceConfig {

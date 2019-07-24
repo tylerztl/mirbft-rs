@@ -1,13 +1,13 @@
-use std::sync::Arc;
-use std::str::FromStr;
 use std::cmp::max;
 use std::net::SocketAddr;
+use std::str::FromStr;
+use std::sync::Arc;
 
-use proto::proto::mirbft::Message;
-use proto::proto::ab_grpc::create_atomic_broadcast;
-use grpcio_sys;
-use grpcio::{ChannelBuilder, EnvBuilder, Server, ServerBuilder};
 use crossbeam::crossbeam_channel::Sender;
+use grpcio::{ChannelBuilder, EnvBuilder, Server, ServerBuilder};
+use grpcio_sys;
+use proto::proto::ab_grpc::create_atomic_broadcast;
+use proto::proto::mirbft::Message;
 
 const DEFAULT_GRPC_STREAM_INITIAL_WINDOW_SIZE: i32 = 2 * 1024 * 1024;
 const DEFAULT_GRPC_CONCURRENT_STREAM: i32 = 1024;

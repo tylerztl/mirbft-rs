@@ -1,23 +1,12 @@
-use network::{
-    GrpcServer,
-    GrpcClient,
-};
-use std::{
-    thread,
-    time,
-    sync::Arc,
-    collections::HashMap,
-};
-use logger::prelude::*;
 use config::{
-    node_config::{
-        NodeConfig,
-        load_node_config,
-    },
     consensus_peers::load_consensus_peers_config,
+    node_config::{load_node_config, NodeConfig},
 };
-use crossbeam::crossbeam_channel::unbounded;
 use consensus::mirbft::MirBft;
+use crossbeam::crossbeam_channel::unbounded;
+use logger::prelude::*;
+use network::{GrpcClient, GrpcServer};
+use std::{collections::HashMap, sync::Arc, thread, time};
 
 pub struct Node {
     pub config: NodeConfig,
@@ -34,7 +23,10 @@ impl Node {
 
     pub fn run(&self) {
         logger::init();
-        let connection_str = format!("{}:{}", self.config.service.address, self.config.service.port);
+        let connection_str = format!(
+            "{}:{}",
+            self.config.service.address, self.config.service.port
+        );
         let (msg_sender, msg_receiver) = unbounded();
 
         let mut server = GrpcServer::new(&connection_str, msg_sender);
@@ -63,7 +55,3 @@ fn setup_client() -> HashMap<String, Arc<GrpcClient>> {
     }
     map
 }
-
-
-
-

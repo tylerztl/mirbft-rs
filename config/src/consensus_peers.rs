@@ -1,11 +1,6 @@
-use std::{
-    path::Path,
-    fs::File,
-    io::Read,
-    collections::HashMap,
-};
-use toml;
 use serde::{Deserialize, Serialize};
+use std::{collections::HashMap, fs::File, io::Read, path::Path};
+use toml;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct PeerConfig {
@@ -40,7 +35,10 @@ pub fn load_consensus_peers_config() -> ConsensusPeersConfig {
     for entry in dir_entry {
         let config_path = entry.unwrap().path();
         let config_path_str = config_path.to_str().unwrap();
-        if config_path_str.find("consensus_peers.config.toml").is_some() {
+        if config_path_str
+            .find("consensus_peers.config.toml")
+            .is_some()
+        {
             return ConsensusPeersConfig::load_config(config_path_str);
         }
     }

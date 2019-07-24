@@ -1,9 +1,6 @@
-use proto::proto::{
-    ab_grpc::AtomicBroadcastClient,
-    mirbft::Message,
-};
-use std::sync::Arc;
 use grpcio::{ChannelBuilder, EnvBuilder};
+use proto::proto::{ab_grpc::AtomicBroadcastClient, mirbft::Message};
+use std::sync::Arc;
 
 pub struct GrpcClient {
     client: AtomicBroadcastClient,

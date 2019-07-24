@@ -1,12 +1,12 @@
-use proto::proto::{
-    mirbft::Message,
-    ab_grpc::AtomicBroadcast,
-    ab::{BroadcastResponse, Status},
-};
-use grpcio::{UnarySink, RpcContext};
-use futures::future::Future;
-use logger::prelude::*;
 use crossbeam::crossbeam_channel::Sender;
+use futures::future::Future;
+use grpcio::{RpcContext, UnarySink};
+use logger::prelude::*;
+use proto::proto::{
+    ab::{BroadcastResponse, Status},
+    ab_grpc::AtomicBroadcast,
+    mirbft::Message,
+};
 
 #[derive(Clone)]
 pub struct BroadcastService {
@@ -15,19 +15,12 @@ pub struct BroadcastService {
 
 impl BroadcastService {
     pub fn new(msg_sender: Sender<Message>) -> BroadcastService {
-        BroadcastService {
-            msg_sender
-        }
+        BroadcastService { msg_sender }
     }
 }
 
 impl AtomicBroadcast for BroadcastService {
-    fn broadcast(
-        &mut self,
-        ctx: RpcContext<'_>,
-        req: Message,
-        sink: UnarySink<BroadcastResponse>,
-    ) {
+    fn broadcast(&mut self, ctx: RpcContext<'_>, req: Message, sink: UnarySink<BroadcastResponse>) {
         info!("receive broadcast message: {:?}", req);
         self.msg_sender.send(req).unwrap();
 

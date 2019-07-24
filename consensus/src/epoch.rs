@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use crate::*;
 use crate::bucket::Bucket;
+use crate::*;
 use config::node_config::NodeConfig;
+use std::collections::HashMap;
 
 struct EpochConfig {}
 

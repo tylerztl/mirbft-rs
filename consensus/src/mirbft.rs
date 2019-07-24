@@ -1,14 +1,11 @@
-use logger::prelude::*;
-use std::thread;
-use std::sync::{Arc, Mutex};
-use crossbeam::crossbeam_channel::{unbounded, Receiver, RecvError, Sender};
-use proto::proto::mirbft::{
-    Message,
-    Message_oneof_Type,
-};
 use crate::state_machine::StateMachine;
 use crate::timer::BatchTimer;
 use config::node_config::NodeConfig;
+use crossbeam::crossbeam_channel::{unbounded, Receiver, RecvError, Sender};
+use logger::prelude::*;
+use proto::proto::mirbft::{Message, Message_oneof_Type};
+use std::sync::{Arc, Mutex};
+use std::thread;
 
 pub struct MirBft {
     msg_receiver: Receiver<Message>,
@@ -32,21 +29,19 @@ impl MirBft {
 
         let _main_thread = thread::Builder::new()
             .name("consensus".to_string())
-            .spawn(move || {
-                loop {
-                    let mut get_msg = Err(RecvError);
-                    let mut timeout_msg = Err(RecvError);
-                    select! {
-                        recv(engine.msg_receiver) -> msg => get_msg = msg,
-                        recv(time_receiver) -> msg => timeout_msg = msg,
-                    }
+            .spawn(move || loop {
+                let mut get_msg = Err(RecvError);
+                let mut timeout_msg = Err(RecvError);
+                select! {
+                    recv(engine.msg_receiver) -> msg => get_msg = msg,
+                    recv(time_receiver) -> msg => timeout_msg = msg,
+                }
 
-                    if let Ok(msg) = get_msg {
-                        engine.process(msg);
-                    }
-                    if let Ok(_msg) = timeout_msg {
-                        engine.propose();
-                    }
+                if let Ok(msg) = get_msg {
+                    engine.process(msg);
+                }
+                if let Ok(_msg) = timeout_msg {
+                    engine.propose();
                 }
             })
             .unwrap();

@@ -10,10 +10,7 @@ pub fn compile_proto(proto_root: &str, dependent_roots: Vec<&str>) {
     let mut additional_includes = vec![];
     for dependent_root in dependent_roots {
         // First compile dependent directories
-        compile_dir(
-            &dependent_root,
-            vec![], /* additional_includes */
-        );
+        compile_dir(&dependent_root, vec![] /* additional_includes */);
         additional_includes.push(Path::new(dependent_root).to_path_buf());
     }
     // Now compile this directory
@@ -48,6 +45,6 @@ fn compile(path: &Path, additional_includes: &[PathBuf]) {
     let mut includes = additional_includes.to_owned();
     includes.push(parent.to_path_buf());
 
-    ::protoc_grpcio::compile_grpc_protos(&[path], includes.as_slice(), parent, None)
+    protoc_grpcio::compile_grpc_protos(&[path], includes.as_slice(), parent, None)
         .unwrap_or_else(|_| panic!("Failed to compile protobuf input: {:?}", path));
 }

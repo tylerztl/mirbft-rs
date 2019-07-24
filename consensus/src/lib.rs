@@ -1,12 +1,12 @@
 #[macro_use]
 extern crate crossbeam;
 
+mod bucket;
+mod epoch;
 pub mod mirbft;
+mod sequence;
 mod state_machine;
 mod timer;
-mod epoch;
-mod bucket;
-mod sequence;
 
 pub type NodeID = u64;
 pub type BucketID = u64;

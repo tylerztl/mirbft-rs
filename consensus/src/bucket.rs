@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use crate::*;
 use crate::sequence::Sequence;
+use crate::*;
 
 pub struct Bucket {
     leader: NodeID,

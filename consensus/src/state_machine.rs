@@ -1,9 +1,6 @@
-use crypto::hash::{
-    Digest,
-    hash as HashValue,
-};
 use crate::epoch::Epoch;
 use config::node_config::NodeConfig;
+use crypto::hash::{hash as HashValue, Digest};
 
 pub struct StateMachine {
     config: NodeConfig,
@@ -21,7 +18,7 @@ impl StateMachine {
     }
 
     pub fn propose(&mut self, data: Vec<u8>) {
-//        let digest = HashValue(&data);
+        //        let digest = HashValue(&data);
         self.msg_queues.push(data);
     }
 }

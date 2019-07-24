@@ -15,11 +15,7 @@ impl Drain for SimpleLogger {
     type Ok = ();
     type Err = io::Error;
 
-    fn log(
-        &self,
-        record: &Record,
-        _: &OwnedKVList,
-    ) -> Result<Self::Ok, Self::Err> {
+    fn log(&self, record: &Record, _: &OwnedKVList) -> Result<Self::Ok, Self::Err> {
         let now = chrono::Local::now();
         PREFIX.with(|prefix| {
             let borrowed = prefix.borrow();
