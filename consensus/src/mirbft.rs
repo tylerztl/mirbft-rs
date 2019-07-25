@@ -22,8 +22,12 @@ impl MirBft {
         info!("BFT State Machine Launched.");
         let mut clients = HashMap::new();
         for (key, val) in config.consensus_config.peers.iter() {
-            let client = Arc::new(Mutex::new(GrpcClient::new(val.address.as_str(), val.port)));
             let key = key.clone().parse::<u64>().unwrap();
+            let client = Arc::new(Mutex::new(GrpcClient::new(
+                key,
+                val.address.clone(),
+                val.port,
+            )));
             clients.insert(key, client);
         }
         MirBft {
@@ -110,7 +114,19 @@ impl MirBft {
                     .unwrap()
                     .propose(forward.payload);
             }
-            Message_oneof_Type::preprepare(_preprepare) => {}
+            Message_oneof_Type::preprepare(preprepare) => {
+                let action = self
+                    .state_machine
+                    .clone()
+                    .lock()
+                    .unwrap()
+                    .preprepare(preprepare);
+                if action.is_some() {
+                    let action_msg = action.unwrap();
+                    self.broadcast(&action_msg);
+                    self.process(action_msg);
+                }
+            }
             Message_oneof_Type::prepare(_prepare) => {}
             Message_oneof_Type::commit(_commit) => {}
             _ => error!("Invalid Message!"),

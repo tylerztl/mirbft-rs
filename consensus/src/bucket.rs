@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::sequence::Sequence;
+use crate::sequence::{Entry, Sequence, SequenceState};
 use crate::*;
 
 pub struct Bucket {
@@ -16,5 +16,13 @@ impl Bucket {
             id,
             sequences: HashMap::new(),
         }
+    }
+
+    pub fn apply_preprepare(&mut self, entry: Entry) {
+        let mut sequence = Sequence::default();
+        let seq_no = entry.seq_no;
+        sequence.state = SequenceState::Preprepared;
+        sequence.entry = entry;
+        self.sequences.insert(seq_no, sequence);
     }
 }

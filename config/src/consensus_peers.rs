@@ -10,6 +10,9 @@ pub struct PeerConfig {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ConsensusConfig {
+    //  将散列空间划分为（大约）相等大小的m * replica 个非互相关联的buckets
+    pub m: usize,
+    pub f: usize,
     pub batch_size: usize,
     pub batch_timeout_ms: u64,
 }

@@ -15,5 +15,7 @@ address = '127.0.0.1'
 port = 8084
 
 [consensus]
+m = 2
+f = 1
 batch_size = 10
 batch_timeout_ms = 1000

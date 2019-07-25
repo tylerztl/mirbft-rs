@@ -154,6 +154,7 @@ dependencies = [
  "network 0.1.0",
  "proto 0.1.0",
  "protobuf 2.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.95 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
