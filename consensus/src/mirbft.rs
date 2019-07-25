@@ -12,13 +12,13 @@ use std::thread;
 
 pub struct MirBft {
     node_id: NodeID,
-    msg_receiver: Receiver<Message>,
+    msg_receiver: Receiver<(NodeID, Message)>,
     state_machine: Arc<Mutex<StateMachine>>,
     clients: HashMap<NodeID, Arc<Mutex<GrpcClient>>>,
 }
 
 impl MirBft {
-    pub fn new(r: Receiver<Message>, config: MirConfig) -> Self {
+    pub fn new(r: Receiver<(NodeID, Message)>, config: MirConfig) -> Self {
         info!("BFT State Machine Launched.");
         let mut clients = HashMap::new();
         for (key, val) in config.consensus_config.peers.iter() {
@@ -38,7 +38,7 @@ impl MirBft {
         }
     }
 
-    pub fn start(r: Receiver<Message>, config: MirConfig) {
+    pub fn start(r: Receiver<(NodeID, Message)>, config: MirConfig) {
         let (time_sender, time_receiver) = unbounded();
         BatchTimer::start(
             time_sender,
@@ -58,14 +58,14 @@ impl MirBft {
                 }
 
                 if let Ok(msg) = get_msg {
-                    engine.process(msg);
+                    engine.process(msg.0, msg.1);
                 }
                 if let Ok(_msg) = timeout_msg {
                     let batch = engine.state_machine.clone().lock().unwrap().handle_batch();
                     if batch.is_some() {
                         let batch_msg = batch.unwrap();
                         engine.broadcast(&batch_msg);
-                        engine.process(batch_msg);
+                        engine.process(engine.node_id, batch_msg);
                     }
                 }
             })
@@ -77,20 +77,26 @@ impl MirBft {
             if *id == self.node_id {
                 continue;
             }
-            client.lock().unwrap().broadcast(&msg);
+            client
+                .lock()
+                .unwrap()
+                .broadcast(id.to_string().as_str(), &msg);
         }
     }
 
     fn unicast(&self, node_id: NodeID, msg: &Message) {
         for (id, client) in self.clients.iter() {
             if node_id == *id {
-                client.lock().unwrap().broadcast(&msg);
+                client
+                    .lock()
+                    .unwrap()
+                    .broadcast(node_id.to_string().as_str(), &msg);
                 return;
             }
         }
     }
 
-    fn process(&mut self, msg: Message) {
+    fn process(&mut self, source: NodeID, msg: Message) {
         let msg_type = msg.Type.unwrap();
         match msg_type {
             Message_oneof_Type::proposal(proposal) => {
@@ -124,11 +130,15 @@ impl MirBft {
                 if action.is_some() {
                     let action_msg = action.unwrap();
                     self.broadcast(&action_msg);
-                    self.process(action_msg);
+                    self.process(self.node_id, action_msg);
                 }
             }
-            Message_oneof_Type::prepare(_prepare) => {}
-            Message_oneof_Type::commit(_commit) => {}
+            Message_oneof_Type::prepare(prepare) => {
+                let action = self.state_machine.clone().lock().unwrap().prepare(prepare);
+            }
+            Message_oneof_Type::commit(commit) => {
+                let action = self.state_machine.clone().lock().unwrap().commit(commit);
+            }
             _ => error!("Invalid Message!"),
         }
     }

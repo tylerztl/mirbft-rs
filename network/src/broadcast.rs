@@ -10,19 +10,23 @@ use proto::proto::{
 
 #[derive(Clone)]
 pub struct BroadcastService {
-    msg_sender: Sender<Message>,
+    msg_sender: Sender<(u64, Message)>,
 }
 
 impl BroadcastService {
-    pub fn new(msg_sender: Sender<Message>) -> BroadcastService {
+    pub fn new(msg_sender: Sender<(u64, Message)>) -> BroadcastService {
         BroadcastService { msg_sender }
     }
 }
 
 impl AtomicBroadcast for BroadcastService {
     fn broadcast(&mut self, ctx: RpcContext<'_>, req: Message, sink: UnarySink<BroadcastResponse>) {
-        info!("receive broadcast message: {:?}", req);
-        self.msg_sender.send(req).unwrap();
+        let (_key, val) = ctx.request_headers().get(0).unwrap();
+        let node_id = std::str::from_utf8(val).unwrap();
+        let node_id = node_id.parse::<u64>().unwrap();
+        info!("receive broadcast message: {:?} from node {}", req, node_id);
+
+        self.msg_sender.send((node_id, req)).unwrap();
 
         let mut resp = BroadcastResponse::new();
         resp.set_status(Status::SUCCESS);

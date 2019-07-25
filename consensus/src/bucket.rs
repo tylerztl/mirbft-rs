@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use crate::sequence::{Entry, Sequence, SequenceState};
 use crate::*;
+use crypto::hash::Digest;
 
 pub struct Bucket {
     pub leader: NodeID,
@@ -18,11 +19,12 @@ impl Bucket {
         }
     }
 
-    pub fn apply_preprepare(&mut self, entry: Entry) {
+    pub fn apply_preprepare(&mut self, digest: Digest, entry: Entry) {
         let mut sequence = Sequence::default();
         let seq_no = entry.seq_no;
         sequence.state = SequenceState::Preprepared;
         sequence.entry = entry;
+        sequence.digest = digest;
         self.sequences.insert(seq_no, sequence);
     }
 }

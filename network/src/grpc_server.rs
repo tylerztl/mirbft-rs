@@ -18,7 +18,7 @@ pub struct GrpcServer {
 }
 
 impl GrpcServer {
-    pub fn new(addr: &str, msg_sender: Sender<Message>) -> Self {
+    pub fn new(addr: &str, msg_sender: Sender<(u64, Message)>) -> Self {
         let address: SocketAddr = SocketAddr::from_str(addr).unwrap();
 
         let env = Arc::new(

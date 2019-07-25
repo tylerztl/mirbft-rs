@@ -1,4 +1,4 @@
-use grpcio::{ChannelBuilder, EnvBuilder};
+use grpcio::{ChannelBuilder, EnvBuilder, MetadataBuilder};
 use logger::prelude::*;
 use proto::proto::{ab_grpc::AtomicBroadcastClient, mirbft::Message};
 use std::sync::Arc;
@@ -24,8 +24,13 @@ impl GrpcClient {
         }
     }
 
-    pub fn broadcast(&mut self, msg: &Message) {
-        let ret = self.client.broadcast(msg);
+    pub fn broadcast(&mut self, source: &str, msg: &Message) {
+        let opt = grpcio::CallOption::default();
+        let mut builder = MetadataBuilder::new();
+        builder.add_str("source", source).unwrap();
+        let metadata = builder.build();
+        let opt = opt.headers(metadata);
+        let ret = self.client.broadcast_opt(msg, opt);
         if ret.is_err() {
             error!(
                 "failed broadcast msg to node: {}, address: {}, err: {}",
@@ -46,6 +51,6 @@ fn test_client() {
     proposal.set_payload(vec![1, 2, 3, 4]);
     msg.set_proposal(proposal);
     for _i in 0..1 {
-        client.broadcast(&msg);
+        client.broadcast("0", &msg);
     }
 }

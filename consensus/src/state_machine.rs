@@ -5,7 +5,7 @@ use byteorder::{BigEndian, ReadBytesExt};
 use config::MirConfig;
 use crypto::hash::{hash as HashValue, Digest};
 use logger::prelude::*;
-use proto::proto::mirbft::{Message, Prepare, Preprepare};
+use proto::proto::mirbft::{Commit, Message, Prepare, Preprepare};
 
 pub struct StateMachine {
     config: MirConfig,
@@ -67,15 +67,8 @@ impl StateMachine {
         preprepare.set_seq_no(self.next_seq);
         preprepare.set_epoch(self.current_epoch.number);
         preprepare.set_bucket(self.current_epoch.owned_buckets[self.next_seq as usize]);
-        preprepare.set_batch(protobuf::RepeatedField::from_vec(batch.clone()));
+        preprepare.set_batch(protobuf::RepeatedField::from_vec(batch));
         message.set_preprepare(preprepare);
-
-        self.current_epoch.apply_preprepare(Entry {
-            seq_no: self.next_seq,
-            epoch: self.current_epoch.number,
-            bucket_id: self.current_epoch.owned_buckets[self.next_seq as usize],
-            batch,
-        });
 
         self.next_bucket = (self.next_bucket + 1) % self.current_epoch.owned_buckets.len() as u64;
         if self.next_bucket == 0 {
@@ -104,6 +97,24 @@ impl StateMachine {
         prepare.set_digest(digest.iter().cloned().collect());
         message.set_prepare(prepare);
 
+        self.current_epoch.apply_preprepare(
+            digest,
+            Entry {
+                seq_no: msg.seq_no,
+                epoch: msg.epoch,
+                bucket_id: msg.bucket,
+                batch: protobuf::RepeatedField::to_vec(&msg.batch),
+            },
+        );
+
         Some(message)
+    }
+
+    pub fn prepare(&mut self, msg: Prepare) -> Option<Message> {
+        None
+    }
+
+    pub fn commit(&mut self, msg: Commit) -> Option<Message> {
+        None
     }
 }

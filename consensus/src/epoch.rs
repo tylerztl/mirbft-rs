@@ -2,6 +2,7 @@ use crate::bucket::Bucket;
 use crate::sequence::Entry;
 use crate::*;
 use config::MirConfig;
+use crypto::hash::Digest;
 use std::collections::HashMap;
 
 pub struct Epoch {
@@ -33,10 +34,10 @@ impl Epoch {
         }
     }
 
-    pub fn apply_preprepare(&mut self, entry: Entry) {
+    pub fn apply_preprepare(&mut self, digest: Digest, entry: Entry) {
         self.buckets
             .get_mut(&entry.bucket_id)
             .unwrap()
-            .apply_preprepare(entry);
+            .apply_preprepare(digest, entry);
     }
 }
