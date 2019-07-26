@@ -9,6 +9,7 @@ use proto::proto::mirbft::{Commit, Message, Prepare, Preprepare};
 
 pub struct StateMachine {
     config: MirConfig,
+    quorum: usize,
     next_seq: SeqNo,
     next_bucket: BucketID,
     pub msg_queues: Vec<Vec<u8>>,
@@ -19,6 +20,7 @@ impl StateMachine {
     pub fn new(config: MirConfig) -> Self {
         StateMachine {
             config: config.clone(),
+            quorum: 2 * config.consensus_config.consensus.f + 1,
             next_seq: 1,
             next_bucket: 0,
             msg_queues: Vec::new(),
@@ -111,16 +113,14 @@ impl StateMachine {
     }
 
     pub fn prepare(&mut self, source: NodeID, msg: Prepare) -> Option<Message> {
-        let required = 2 * self.config.consensus_config.consensus.f + 1;
-
         let mut array = [0u8; 32];
         for (&x, p) in msg.digest.clone().iter().zip(array.iter_mut()) {
             *p = x;
         }
 
-        let is_ok = self
-            .current_epoch
-            .apply_prepare(source, msg.seq_no, msg.bucket, array, required);
+        let is_ok =
+            self.current_epoch
+                .apply_prepare(source, msg.seq_no, msg.bucket, array, self.quorum);
         if !is_ok {
             return None;
         }
@@ -134,7 +134,17 @@ impl StateMachine {
         Some(message)
     }
 
-    pub fn commit(&mut self, msg: Commit) -> Option<Message> {
-        None
+    pub fn commit(&mut self, source: NodeID, msg: Commit) {
+        let mut array = [0u8; 32];
+        for (&x, p) in msg.digest.clone().iter().zip(array.iter_mut()) {
+            *p = x;
+        }
+
+        if self
+            .current_epoch
+            .apply_commit(source, msg.seq_no, msg.bucket, array, self.quorum)
+        {
+            info!("Message:{:?} consensus succeed!", msg);
+        }
     }
 }

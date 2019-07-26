@@ -55,4 +55,16 @@ impl Sequence {
         }
         self.prepares.get_mut(&digest).unwrap().len()
     }
+
+    pub fn handle_commits(&mut self, digest: Digest, node_id: NodeID) -> usize {
+        let nodes = self.commits.get_mut(&digest);
+        if nodes.is_none() {
+            let mut nodes = Vec::new();
+            nodes.push(node_id);
+            self.commits.insert(digest, nodes);
+        } else {
+            nodes.unwrap().push(node_id);
+        }
+        self.commits.get_mut(&digest).unwrap().len()
+    }
 }

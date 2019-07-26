@@ -1,9 +1,7 @@
-use std::collections::HashMap;
-
 use crate::sequence::{Entry, Sequence, SequenceState};
 use crate::*;
 use crypto::hash::Digest;
-use logger::prelude::*;
+use std::collections::HashMap;
 
 pub struct Bucket {
     pub leader: NodeID,
@@ -34,7 +32,7 @@ impl Bucket {
         source: NodeID,
         seq_no: SeqNo,
         digest: Digest,
-        required: usize,
+        quorum: usize,
     ) -> bool {
         let sequence = self.sequences.get_mut(&seq_no);
         if sequence.is_none() {
@@ -45,7 +43,23 @@ impl Bucket {
         }
         let sequence = self.sequences.get_mut(&seq_no).unwrap();
         let agreements = sequence.handle_prepares(digest, source);
-        let is_ok = agreements >= required;
+        let is_ok = agreements >= quorum;
+        if is_ok {
+            sequence.state = SequenceState::Prepared;
+        }
+        is_ok
+    }
+
+    pub fn apply_commit(
+        &mut self,
+        source: NodeID,
+        seq_no: SeqNo,
+        digest: Digest,
+        quorum: usize,
+    ) -> bool {
+        let sequence = self.sequences.get_mut(&seq_no).unwrap();
+        let agreements = sequence.handle_commits(digest, source);
+        let is_ok = agreements >= quorum;
         if is_ok {
             sequence.state = SequenceState::Prepared;
         }

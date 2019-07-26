@@ -141,12 +141,16 @@ impl MirBft {
                     .unwrap()
                     .prepare(source, prepare)
                     .map(|commit| {
-                        self.process(self.node_id, commit.clone());
                         self.broadcast(&commit);
+                        self.process(self.node_id, commit);
                     });
             }
             Message_oneof_Type::commit(commit) => {
-                let action = self.state_machine.clone().lock().unwrap().commit(commit);
+                self.state_machine
+                    .clone()
+                    .lock()
+                    .unwrap()
+                    .commit(source, commit);
             }
             _ => error!("Invalid Message!"),
         }

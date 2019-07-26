@@ -47,11 +47,25 @@ impl Epoch {
         seq_no: SeqNo,
         bucket_id: BucketID,
         digest: Digest,
-        required: usize,
+        quorum: usize,
     ) -> bool {
         self.buckets
             .get_mut(&bucket_id)
             .unwrap()
-            .apply_prepare(source, seq_no, digest, required)
+            .apply_prepare(source, seq_no, digest, quorum)
+    }
+
+    pub fn apply_commit(
+        &mut self,
+        source: NodeID,
+        seq_no: SeqNo,
+        bucket_id: BucketID,
+        digest: Digest,
+        quorum: usize,
+    ) -> bool {
+        self.buckets
+            .get_mut(&bucket_id)
+            .unwrap()
+            .apply_commit(source, seq_no, digest, quorum)
     }
 }
