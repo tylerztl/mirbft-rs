@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use crate::sequence::{Entry, Sequence, SequenceState};
 use crate::*;
 use crypto::hash::Digest;
+use logger::prelude::*;
 
 pub struct Bucket {
     pub leader: NodeID,
@@ -26,5 +27,28 @@ impl Bucket {
         sequence.entry = entry;
         sequence.digest = digest;
         self.sequences.insert(seq_no, sequence);
+    }
+
+    pub fn apply_prepare(
+        &mut self,
+        source: NodeID,
+        seq_no: SeqNo,
+        digest: Digest,
+        required: usize,
+    ) -> bool {
+        let sequence = self.sequences.get_mut(&seq_no);
+        if sequence.is_none() {
+            let mut sequence = Sequence::default();
+            sequence.state = SequenceState::Preprepared;
+            sequence.digest = digest.clone();
+            self.sequences.insert(seq_no, sequence);
+        }
+        let sequence = self.sequences.get_mut(&seq_no).unwrap();
+        let agreements = sequence.handle_prepares(digest, source);
+        let is_ok = agreements >= required;
+        if is_ok {
+            sequence.state = SequenceState::Prepared;
+        }
+        is_ok
     }
 }

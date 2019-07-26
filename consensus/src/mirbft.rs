@@ -45,7 +45,7 @@ impl MirBft {
             config.consensus_config.consensus.batch_timeout_ms,
         );
 
-        let mut engine = Self::new(r, config);
+        let engine = Self::new(r, config);
 
         let _main_thread = thread::Builder::new()
             .name("consensus".to_string())
@@ -80,7 +80,7 @@ impl MirBft {
             client
                 .lock()
                 .unwrap()
-                .broadcast(id.to_string().as_str(), &msg);
+                .broadcast(self.node_id.to_string().as_str(), &msg);
         }
     }
 
@@ -90,13 +90,14 @@ impl MirBft {
                 client
                     .lock()
                     .unwrap()
-                    .broadcast(node_id.to_string().as_str(), &msg);
+                    .broadcast(self.node_id.to_string().as_str(), &msg);
                 return;
             }
         }
     }
 
-    fn process(&mut self, source: NodeID, msg: Message) {
+    fn process(&self, source: NodeID, msg: Message) {
+        info!("handle msg: {:?} from node: {}", msg, source);
         let msg_type = msg.Type.unwrap();
         match msg_type {
             Message_oneof_Type::proposal(proposal) => {
@@ -129,12 +130,20 @@ impl MirBft {
                     .preprepare(preprepare);
                 if action.is_some() {
                     let action_msg = action.unwrap();
+                    self.process(self.node_id, action_msg.clone());
                     self.broadcast(&action_msg);
-                    self.process(self.node_id, action_msg);
                 }
             }
             Message_oneof_Type::prepare(prepare) => {
-                let action = self.state_machine.clone().lock().unwrap().prepare(prepare);
+                self.state_machine
+                    .clone()
+                    .lock()
+                    .unwrap()
+                    .prepare(source, prepare)
+                    .map(|commit| {
+                        self.process(self.node_id, commit.clone());
+                        self.broadcast(&commit);
+                    });
             }
             Message_oneof_Type::commit(commit) => {
                 let action = self.state_machine.clone().lock().unwrap().commit(commit);

@@ -40,4 +40,18 @@ impl Epoch {
             .unwrap()
             .apply_preprepare(digest, entry);
     }
+
+    pub fn apply_prepare(
+        &mut self,
+        source: NodeID,
+        seq_no: SeqNo,
+        bucket_id: BucketID,
+        digest: Digest,
+        required: usize,
+    ) -> bool {
+        self.buckets
+            .get_mut(&bucket_id)
+            .unwrap()
+            .apply_prepare(source, seq_no, digest, required)
+    }
 }

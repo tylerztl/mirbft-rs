@@ -110,8 +110,28 @@ impl StateMachine {
         Some(message)
     }
 
-    pub fn prepare(&mut self, msg: Prepare) -> Option<Message> {
-        None
+    pub fn prepare(&mut self, source: NodeID, msg: Prepare) -> Option<Message> {
+        let required = 2 * self.config.consensus_config.consensus.f + 1;
+
+        let mut array = [0u8; 32];
+        for (&x, p) in msg.digest.clone().iter().zip(array.iter_mut()) {
+            *p = x;
+        }
+
+        let is_ok = self
+            .current_epoch
+            .apply_prepare(source, msg.seq_no, msg.bucket, array, required);
+        if !is_ok {
+            return None;
+        }
+        let mut message = Message::new();
+        let mut commit = Commit::new();
+        commit.set_seq_no(msg.seq_no);
+        commit.set_epoch(msg.epoch);
+        commit.set_bucket(msg.bucket);
+        commit.set_digest(msg.digest);
+        message.set_commit(commit);
+        Some(message)
     }
 
     pub fn commit(&mut self, msg: Commit) -> Option<Message> {

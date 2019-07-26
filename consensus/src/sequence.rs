@@ -22,8 +22,8 @@ pub struct Sequence {
     pub state: SequenceState,
     pub entry: Entry,
     pub digest: Digest,
-    pub prepares: HashMap<String, NodeID>,
-    pub commits: HashMap<String, NodeID>,
+    pub prepares: HashMap<Digest, Vec<NodeID>>,
+    pub commits: HashMap<Digest, Vec<NodeID>>,
 }
 
 impl Default for Sequence {
@@ -40,5 +40,19 @@ impl Default for Sequence {
             prepares: HashMap::new(),
             commits: HashMap::new(),
         }
+    }
+}
+
+impl Sequence {
+    pub fn handle_prepares(&mut self, digest: Digest, node_id: NodeID) -> usize {
+        let nodes = self.prepares.get_mut(&digest);
+        if nodes.is_none() {
+            let mut nodes = Vec::new();
+            nodes.push(node_id);
+            self.prepares.insert(digest, nodes);
+        } else {
+            nodes.unwrap().push(node_id);
+        }
+        self.prepares.get_mut(&digest).unwrap().len()
     }
 }
